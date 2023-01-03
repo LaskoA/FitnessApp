@@ -18,13 +18,6 @@ export interface LeftMenuProps {
   readonly backgroundColor?: string;
 }
 
-// readonly open: boolean;
-//   readonly onClose: () => void;
-//   readonly title: string;
-//   readonly onSubmit: () => void;
-//   readonly cancelText?: string;
-//   readonly submitText?: string;
-//   readonly isLoading?: boolean;
 export const LeftMenu = ({ children, backgroundColor }: LeftMenuProps) => {
   const { push } = useRouter();
   const user = true;
