@@ -123,14 +123,28 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           transition: 'all .5s',
+          textTransform: 'capitalize',
+          padding: 16,
+          borderRadius: 12,
+          ':hover': {
+            boxShadow: '0px 10px 10px rgba(0, 0, 0, 0.5)',
+          }
         },
         outlined: {
-
+          color: palette.secondary.main,
+          border: `1px solid ${palette.secondary.main}`,
+          ':hover': {
+            color: palette.secondary.main,
+            border: `1px solid ${palette.secondary.main}`,
+          },
         },
         contained: {
           color: palette.common.white,
           backgroundColor: palette.secondary.main,
-          textTransform: 'capitalize',
+          ':hover': {
+            color: palette.common.white,
+            backgroundColor: palette.secondary.main,
+          },
         },
       },
     },

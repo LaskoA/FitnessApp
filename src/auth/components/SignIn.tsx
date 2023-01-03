@@ -1,6 +1,6 @@
 import { Box, Dialog, DialogTitle, DialogContent, DialogProps, Typography } from '@mui/material';
 
-import { useTrainQuery, useNeq } from '@app/queries';
+import { useTrainQuery } from '@app/queries';
 
 
 
