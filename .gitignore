@@ -7,3 +7,10 @@ venv/
 .pytest_cache/
 **__pycache__/
 media
+/node_modules
+.next
+
+.gitignore
+
+/build
+.env
