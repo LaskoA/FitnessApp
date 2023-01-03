@@ -141,11 +141,6 @@ export const LeftMenu = ({ children, backgroundColor }: LeftMenuProps) => {
       </Box>
       <Grid container>
         <Grid item xs={12} sx={{ backgroundColor: backgroundColor }}>
-          {/* <Box display="flex" justifyContent="space-between" alignItems="center" py={{ md: 4 }} px={{ md: 6 }}> */}
-          <Box py={{ md: 4 }} px={{ md: 6 }}>
-            <Typography variant="h1">Заплановані тренування</Typography>
-            {/* <Image src={avatar.src} alt="avatar" height={30} width={30} style={{ borderRadius: '50%' }} /> */}
-          </Box>
           {children}
         </Grid>
       </Grid>
