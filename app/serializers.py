@@ -16,6 +16,13 @@ class DaySerializer(serializers.ModelSerializer):
         fields = ("id", "day", "water")
 
 
+class DayTrainingSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Day
+        fields = ("id", "day")
+
+
 class ExerciseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Exercise
@@ -36,7 +43,18 @@ class MuscleListSerializer(MuscleSerializer):
         fields = ("id", "title", "exercises")
 
 
+class MuscleTrainingSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Muscle
+        fields = ("id", "title")
+
+
 class TrainingSerializer(serializers.ModelSerializer):
+    muscles = MuscleTrainingSerializer(many=True, read_only=True)
+    day = DayTrainingSerializer(many=False, read_only=True)
+
     class Meta:
         model = Training
+
         fields = ("id", "name", "comment", "day", "muscles", "user")

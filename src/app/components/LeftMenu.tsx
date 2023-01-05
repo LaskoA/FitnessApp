@@ -163,7 +163,7 @@ export const LeftMenu = ({ children, backgroundColor }: LeftMenuProps) => {
           <Box py={{ md: 4 }} px={{ md: 6 }}>
             <Typography variant="h1">
               {/* replace true and update wrong title for backbutton */}
-              {true ? t(`menu.${active.id}.subtitle`) : <BackButton title={t(`menu.${active.id}.subtitle`)} />}
+              {true ? t(`menu.${active?.id}.subtitle`) : <BackButton title={t(`menu.${active.id}.subtitle`)} />}
             </Typography>
           </Box>
           {children}
