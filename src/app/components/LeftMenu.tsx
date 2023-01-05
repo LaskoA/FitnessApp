@@ -1,17 +1,23 @@
 import { Box, ButtonBase, List, ListItem, ListItemButton, ListItemIcon, Typography, Grid, IconButton } from '@mui/material';
+import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
 import { ReactNode } from 'react';
 import Image from 'next/image';
 
 import { Svg } from '@app/ui/svg';
 
+import { BackButton } from './BackButton';
 import { useSignInModal } from '../hooks/useSignInModal';
 import avatar from '../images/user-avatar.png';
-import { ReactComponent as BugIcon } from '../images/icons/bug.svg';
 import { ReactComponent as InfoIcon } from '../images/icons/info.svg';
+import { ReactComponent as CardsIcon } from '../images/icons/cards.svg';
 import { ReactComponent as LogOutIcon } from '../images/icons/log-out.svg';
 import { ReactComponent as BarBellIcon } from '../images/icons/bar-bell.svg';
+import { ReactComponent as StatisticsIcon } from '../images/icons/statistics.svg';
+import { ReactComponent as ParametersIcon } from '../images/icons/parameters.svg';
 import { ReactComponent as PlanAndDoIcon } from '../images/icons/plan-and-do.svg';
+import { ReactComponent as StrongHandIcon } from '../images/icons/strong-hand.svg';
+import { ReactComponent as WeightliftingIcon } from '../images/icons/weightlifting.svg';
 
 export interface LeftMenuProps {
   readonly children: ReactNode;
@@ -19,7 +25,8 @@ export interface LeftMenuProps {
 }
 
 export const LeftMenu = ({ children, backgroundColor }: LeftMenuProps) => {
-  const { push } = useRouter();
+  const { push, pathname } = useRouter();
+  const { t } = useTranslation('common');
   const user = true;
   const [showModal] = useSignInModal({
     // onClose: () => {},
@@ -29,31 +36,33 @@ export const LeftMenu = ({ children, backgroundColor }: LeftMenuProps) => {
 
   const menuList = [
     {
-      title: 'Мої тренування',
-      icon: <BugIcon />,
+      id: 'trainings',
+      icon: <StrongHandIcon />,
       to: '/trainings/my',
     },
     {
-      title: 'Програми тренувань',
-      icon: <BugIcon />,
-      to: '/cabinet',
+      id: 'programs',
+      icon: <WeightliftingIcon />,
+      to: '/programs',
     },
     {
-      title: 'Каталог вправ',
-      icon: <BugIcon />,
-      to: '/cabinet',
+      id: 'excersices',
+      icon: <CardsIcon />,
+      to: '/excersices',
     },
     {
-      title: 'Заміри тіла',
-      icon: <BugIcon />,
-      to: '/cabinet',
+      id: 'parameters',
+      icon: <ParametersIcon />,
+      to: '/parameters',
     },
     {
-      title: 'Статистика',
-      icon: <BugIcon />,
-      to: '/cabinet',
+      id: 'statistics',
+      icon: <StatisticsIcon />,
+      to: '/statistics',
     },
   ];
+
+  const active = menuList.find(({ id }) => pathname.includes(id));
 
   const gradient = 'radial-gradient(163.01% 100% at 50% 0%, rgba(181, 44, 44, 0) 16.92%, rgba(254, 40, 220, 0.224414) 50.93%, rgba(254, 40, 40, 0.435461) 68.7%, rgba(254, 92, 40, 0.8) 100%)';
 
@@ -98,12 +107,29 @@ export const LeftMenu = ({ children, backgroundColor }: LeftMenuProps) => {
           <List>
             <Box color="common.white" mt={{ md: user ? 9 : 6.25 }} mx={{ md: -2 }}>
               {menuList.map(item => (
-                <ListItem key={item.title} sx={{ p: 0 }}>
-                  <ListItemButton disableGutters onClick={() => push(item.to)}>
+                <ListItem key={item.id} sx={{ p: 0 }}>
+                  <ListItemButton
+                    disableGutters
+                    onClick={() => push(item.to)}
+                    selected={active?.id === item.id}
+                    sx={theme => ({
+                      svg: {
+                        fill: theme.palette.grey[200],
+                      },
+                      color: theme.palette.grey[200],
+                      ':hover, &.Mui-selected, &.Mui-selected:hover': {
+                        backgroundColor: 'rgba(0, 0, 0, 0)',
+                        svg: {
+                          fill: theme.palette.common.white,
+                        },
+                        color: theme.palette.common.white,
+                      },
+                    })}
+                  >
                     <ListItemIcon sx={{ minWidth: 24 }}>
-                      <BugIcon />
+                      {item.icon}
                     </ListItemIcon>
-                    <Typography>{item.title}</Typography>
+                    <Typography>{t(`menu.${item.id}.title`)}</Typography>
                   </ListItemButton>
                 </ListItem>
               ))}
@@ -134,6 +160,12 @@ export const LeftMenu = ({ children, backgroundColor }: LeftMenuProps) => {
       </Box>
       <Grid container>
         <Grid item xs={12} sx={{ backgroundColor: backgroundColor }}>
+          <Box py={{ md: 4 }} px={{ md: 6 }}>
+            <Typography variant="h1">
+              {/* replace true and update wrong title for backbutton */}
+              {true ? t(`menu.${active.id}.subtitle`) : <BackButton title={t(`menu.${active.id}.subtitle`)} />}
+            </Typography>
+          </Box>
           {children}
         </Grid>
       </Grid>

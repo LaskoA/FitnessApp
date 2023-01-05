@@ -6,12 +6,20 @@ import { apiClient } from '@app/query';
 
 import { Train, ApiError, Shape, Exercise } from './types';
 
-export const getTraining = async (id: number, options: AxiosRequestConfig = {}): Promise<Train[]> => {
+export const getTraining = async (id?: number, options: AxiosRequestConfig = {}): Promise<Train[]> => {
   return await apiClient.get(`app/trainings/${id}/`, options);
 };
 
 export const useTrainQuery = (id: number, options: UseQueryOptions<Train[], ApiError> = {}) => {
   return useQuery<Train[], ApiError>(['fitnes'], () => getTraining(id), options);
+};
+
+export const getTrainings = async (options: AxiosRequestConfig = {}): Promise<Train[]> => {
+  return await apiClient.get('app/trainings/', options);
+};
+
+export const useTrainingsQuery = (options: UseQueryOptions<Train[], ApiError> = {}) => {
+  return useQuery<Train[], ApiError>(['trainings'], getTrainings, options);
 };
 
 export const getShapes = async (options: AxiosRequestConfig = {}): Promise<Shape> => {

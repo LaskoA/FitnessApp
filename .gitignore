@@ -1,7 +1,6 @@
 .idea/
 .vscode/
 *.iml
-.env
 .DS_Store
 venv/
 .pytest_cache/
@@ -13,4 +12,3 @@ media
 .gitignore
 
 /build
-.env

@@ -1,10 +1,10 @@
 import type { NextPage, GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-import { User } from '@app/auth/components/User';
+import { Parameters } from '@app/components/Parameters';
 
-const UserPage: NextPage = () => {
-  return <User />;
+const ParametersPage: NextPage = () => {
+  return <Parameters />;
 };
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
@@ -15,4 +15,4 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   };
 };
 
-export default UserPage;
+export default ParametersPage;
