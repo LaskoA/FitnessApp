@@ -12,6 +12,7 @@ const palette = {
   },
   error: {
     main: '#FF5252',
+    dark: '#C2421F'
   },
   text: {
     primary: '#000000',
@@ -21,6 +22,7 @@ const palette = {
     100: '#ECECEC',
     200: '#ABABAB',
     300: '#E5E7EB',
+    400: '#7E7E82',
     800: '#747373',
     900: '#333434',
   },
@@ -55,6 +57,7 @@ const typography = {
     },
   },
   h3: {
+    fontWeight: 600,
     lineHeight: 1.5,
     letterSpacing: 0,
     [breakpoints.up('md')]: {
@@ -62,7 +65,7 @@ const typography = {
     },
   },
   h4: {
-    fontWeight: 500,
+    fontWeight: 600,
     lineHeight: 1.3,
     letterSpacing: 0,
     [breakpoints.up('md')]: {
