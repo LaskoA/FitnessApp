@@ -10,6 +10,7 @@ import userAvatar from '@app/app/images/user-avatar.png';
 import { LeftMenu } from '@app/app/components/LeftMenu';
 
 import { ReactComponent as CameraIcon } from '../images/icons/camera-icon.svg';
+import { Avatar } from '@app/cropper';
 
 export const User = () => {
   // const { data } = useTrainQuery(1);
@@ -22,13 +23,6 @@ export const User = () => {
   const [avatar, setAvatar] = useState<StaticImageData | string>(userAvatar);
   const avatarRef = useRef<HTMLInputElement | null>(null);
 
-  const onClickHandler = () => {
-    if (avatarRef.current) {
-      console.log(avatarRef.current.files[0].name);
-      // setAvatar(avatarRef.current.files[0].name);
-    }
-  };
-
   return (
     <LeftMenu>
       <Box py={{ md: 4 }} px={{ md: 6 }}>
@@ -37,15 +31,8 @@ export const User = () => {
       <Box borderRadius={5} mx={6} mb={15.5} pb={4} sx={{ backgroundColor: 'primary.main' }}>
         <Box display="flex" justifyContent="center" py={4}>
           <Box position="relative">
-            <ButtonBase
-              sx={{ overflow: 'hidden', borderRadius: '50%' }}
-              aria-label="upload picture"
-              component="label"
-              onClick={onClickHandler}
-            >
-              <Image src={avatar} alt="avatar" height={122} width={122} priority />
-              <input accept="image/*" hidden type="file" ref={avatarRef} />
-            </ButtonBase>
+            <Avatar />
+
             <Box sx={{ position: 'absolute', bottom: 0, right: 0 }}>
               <Svg Icon={CameraIcon} size={30} />
             </Box>
