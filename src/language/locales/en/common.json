@@ -1,0 +1,78 @@
+{
+  "general": {
+    "buttons": {
+      "plainTrain": "Schedule Training",
+      "plain": "Schedule",
+      "register": "Register",
+      "cancel": "Cancel",
+      "save": "Save",
+      "this": {
+        "title": "This {{day}}",
+        "day": "day",
+        "week": "week",
+        "month": "month"
+      },
+      "add": "Add"
+    },
+    "history": {
+      "title": "History",
+      "date": "Date",
+      "value": "Value",
+      "changes": "Changes"
+    },
+    "plained": {
+      "title": "Scheduled"
+    },
+    "set": {
+      "date": "Enter the training date",
+      "program": "Program",
+      "example": "Choose one of the options"
+    }
+  },
+  "menu": {
+    "trainings": {
+      "title": "My workouts",
+      "subtitle": "My training",
+      "plain": {
+        "title": "You don't have any scheduled workouts yet",
+        "subtitle": "Here you can plan your training, on the selected date, indicate the group of muscles you plan to train, and choose the necessary exercises."
+      }
+    },
+    "programs": {
+      "title": "Training programs",
+      "subtitle": "Exercise programs"
+    },
+    "excercises": {
+      "title": "Catalog of exercises",
+      "subtitle": "Exercises"
+    },
+    "parameters": {
+      "title": "Body Measurements",
+      "subtitle": "Body Measurements",
+      "options": {
+        "weight": "Weight",
+        "waist": "Waist",
+        "glutes": "Buttocks",
+        "biceps": "Biceps",
+        "thighs": "Thighs",
+        "calf": "Caviar",
+        "neck": "Neck",
+        "shoulders": "Shoulders",
+        "chest": "Chest",
+        "forearm": "Forearm"
+      }
+    },
+    "statistics": {
+      "title": "Statistics",
+      "subtitle": "Statistics",
+      "water": "Amount of water drunk",
+      "sizes": "Measurement statistics",
+      "popular": "Popular exercises"
+    }
+  },
+  "table": {
+    "date": "Date",
+    "program": "Program",
+    "name": "Training Name"
+  }
+}

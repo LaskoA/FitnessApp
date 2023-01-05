@@ -6,7 +6,8 @@ from app.models import Shape, Day, Exercise, Muscle, Training
 class ShapeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Shape
-        fields = ("id", "height", "weight", "waist", "user")
+        fields = ("id", "height", "weight", "waist", "glutes", "biceps",
+                  "thighs", "calf", "neck", "shoulders", "chest", "forearm", "user")
 
 
 class DaySerializer(serializers.ModelSerializer):

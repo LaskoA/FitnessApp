@@ -25,7 +25,12 @@ SECRET_KEY = "django-insecure-5$4_)w3)$clb9xp_3wl*o=0hou)ye%vuki88ju2=j_5a-*2eyn
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_WHITELIST = ['http://*', 'https://*']
+CORS_ALLOW_HEADERS = ['*']
+
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -41,6 +46,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "app",
     "user",
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
@@ -52,6 +58,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
 ]
 
 ROOT_URLCONF = "FitnessApp.urls"

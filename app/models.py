@@ -3,9 +3,17 @@ from django.conf import settings
 
 
 class Shape(models.Model):
-    height = models.IntegerField(blank=True, null=True)
-    weight = models.IntegerField(blank=True, null=True)
-    waist = models.IntegerField(blank=True, null=True)
+    height = models.IntegerField(blank=True, null=True)  # зріст
+    weight = models.IntegerField(blank=True, null=True) # вага
+    waist = models.IntegerField(blank=True, null=True)  # талія
+    glutes = models.IntegerField(blank=True, null=True)  # сідниці
+    biceps = models.IntegerField(blank=True, null=True) # біцепси
+    thighs = models.IntegerField(blank=True, null=True)  # бедра
+    calf = models.IntegerField(blank=True, null=True)  # ікри
+    neck = models.IntegerField(blank=True, null=True)  # шия
+    shoulders = models.IntegerField(blank=True, null=True)  # плечі
+    chest = models.IntegerField(blank=True, null=True)  # груди
+    forearm = models.IntegerField(blank=True, null=True)  # передпліччя
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     class Meta:
