@@ -6,7 +6,8 @@ from app.views import (
     DayViewSet,
     ExerciseViewSet,
     MuscleViewSet,
-    TrainingViewSet
+    TrainingViewSet,
+    ProgramViewSet,
 )
 
 router = routers.DefaultRouter()
@@ -16,6 +17,7 @@ router.register("days", DayViewSet)
 router.register("exercises", ExerciseViewSet)
 router.register("muscles", MuscleViewSet)
 router.register("trainings", TrainingViewSet)
+router.register("programs", ProgramViewSet)
 
 
 urlpatterns = [path("", include(router.urls))]

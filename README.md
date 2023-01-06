@@ -35,6 +35,7 @@ python manage.py runserver
 - http://127.0.0.1:8000/app/exercises/
 - http://127.0.0.1:8000/app/muscles/
 - http://127.0.0.1:8000/app/trainings/
+- http://127.0.0.1:8000/app/programs/
 - http://127.0.0.1:8000/user/register/
 - http://127.0.0.1:8000/user/change/id/
 

@@ -45,6 +45,7 @@ class Exercise(models.Model):
     video = models.URLField()
     sets = models.IntegerField()
     reps = models.IntegerField()
+    rest = models.IntegerField(default=30)
     time_per_rep = models.IntegerField()
 
     class Meta:
@@ -65,11 +66,28 @@ class Muscle(models.Model):
         return self.title
 
 
+class Program(models.Model):
+    class DifficultyChoices(models.TextChoices):
+        EASY = "Easy"
+        MEDIUM = "Medium"
+        HARD = "Hard"
+
+    name = models.CharField(max_length=63)
+    difficulty = models.CharField(max_length=20, choices=DifficultyChoices.choices, default="Easy")
+
+    class Meta:
+        ordering = ["name"]
+
+    def __str__(self):
+        return self.name
+
+
 class Training(models.Model):
     name = models.CharField(max_length=63)
     comment = models.CharField(max_length=255, blank=True, null=True)
     day = models.OneToOneField(Day, on_delete=models.CASCADE)
     muscles = models.ManyToManyField(Muscle)
+    program = models.ForeignKey(Program, on_delete=models.CASCADE, blank=True, null=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     class Meta:

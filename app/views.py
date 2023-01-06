@@ -6,7 +6,8 @@ from app.models import (
     Day,
     Exercise,
     Muscle,
-    Training
+    Training,
+    Program,
 )
 
 from app.serializers import (
@@ -16,6 +17,7 @@ from app.serializers import (
     MuscleSerializer,
     MuscleListSerializer,
     TrainingSerializer,
+    ProgramSerializer,
 )
 
 
@@ -83,3 +85,15 @@ class TrainingViewSet(
 ):
     queryset = Training.objects.all()
     serializer_class = TrainingSerializer
+
+
+class ProgramViewSet(
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin,
+    mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
+    viewsets.GenericViewSet
+):
+    queryset = Program.objects.all()
+    serializer_class = ProgramSerializer
