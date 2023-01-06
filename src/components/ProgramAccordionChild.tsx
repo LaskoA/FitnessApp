@@ -55,6 +55,8 @@ const Accordion = styled((props: AccordionProps) => (
   <MuiAccordion disableGutters elevation={0} sx={{ '&.MuiPaper-root': { p: 0 } }} {...props} />
 ))(({ theme }) => ({
   // borderBottom: `1px solid ${theme.palette.divider}`,
+  // nextjs tip:
+  // The pseudo class ":first-child" is potentially unsafe when doing server-side rendering. Try changing it to ":first-of-type".
   '&:first-child': {
     borderBottom: 0,
   },
@@ -89,7 +91,7 @@ interface ProgramAccordionChildProps {
 }
 
 export const ProgramAccordionChild = ({ items }: ProgramAccordionChildProps) => {
-  const [expanded, setExpanded] = useState<string | false>('panel1');
+  // const [expanded, setExpanded] = useState<string | false>('panel1');
   const [expandedChild, setExpandedChild] = useState<string | false>('panel2');
   const { t } = useTranslation('common');
   // const { level } = useParams();
@@ -97,9 +99,9 @@ export const ProgramAccordionChild = ({ items }: ProgramAccordionChildProps) => 
   // const { data = [] } = useExercisesQuery();
   // console.log(data);
 
-  const handleChange = (panel: string) => (event: React.SyntheticEvent, newExpanded: boolean) => {
-    setExpanded(newExpanded ? panel : false);
-  };
+  // const handleChange = (panel: string) => (event: React.SyntheticEvent, newExpanded: boolean) => {
+  //   setExpanded(newExpanded ? panel : false);
+  // };
 
   const handleChangeChild = (panel: string) => (event: React.SyntheticEvent, newExpanded: boolean) => {
     setExpandedChild(newExpanded ? panel : false);
