@@ -30,10 +30,10 @@ export const TrainingsTable = ({ item }: TrainingsTableProps) => {
         <TableBody>
           <TableRow key={item.id}>
             <TableCell>
-              <Typography variant="subtitle1">{item.day}</Typography>
+              <Typography variant="subtitle1">{item.day.day}</Typography>
             </TableCell>
             <TableCell>
-              <Typography variant="subtitle1" color="grey.400">{item.muscles}</Typography>
+              <Typography variant="subtitle1" color="grey.400">{item.muscles.map(el => el.title)}</Typography>
             </TableCell>
             <TableCell>
               <Typography variant="subtitle1" color="grey.400">{item.name}</Typography>
