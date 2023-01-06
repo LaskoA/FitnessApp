@@ -1,4 +1,14 @@
-import { Box, ButtonBase, List, ListItem, ListItemButton, ListItemIcon, Typography, Grid, IconButton } from '@mui/material';
+import {
+  Box,
+  ButtonBase,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  Typography,
+  Grid,
+  IconButton,
+} from '@mui/material';
 import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
 import { ReactNode } from 'react';
@@ -22,10 +32,12 @@ import { ReactComponent as WeightliftingIcon } from '../images/icons/weightlifti
 export interface LeftMenuProps {
   readonly children: ReactNode;
   readonly backgroundColor?: string;
+  readonly enableBackButton?: boolean;
+  readonly backButtonTitle?: string;
 }
 
-export const LeftMenu = ({ children, backgroundColor }: LeftMenuProps) => {
-  const { push, pathname } = useRouter();
+export const LeftMenu = ({ children, backgroundColor, enableBackButton = false, backButtonTitle }: LeftMenuProps) => {
+  const { push, pathname, back } = useRouter();
   const { t } = useTranslation('common');
   const user = true;
   const [showModal] = useSignInModal({
@@ -64,7 +76,8 @@ export const LeftMenu = ({ children, backgroundColor }: LeftMenuProps) => {
 
   const active = menuList.find(({ id }) => pathname.includes(id));
 
-  const gradient = 'radial-gradient(163.01% 100% at 50% 0%, rgba(181, 44, 44, 0) 16.92%, rgba(254, 40, 220, 0.224414) 50.93%, rgba(254, 40, 40, 0.435461) 68.7%, rgba(254, 92, 40, 0.8) 100%)';
+  const gradient =
+    'radial-gradient(163.01% 100% at 50% 0%, rgba(181, 44, 44, 0) 16.92%, rgba(254, 40, 220, 0.224414) 50.93%, rgba(254, 40, 40, 0.435461) 68.7%, rgba(254, 92, 40, 0.8) 100%)';
 
   return (
     <Box display="flex">
@@ -126,9 +139,7 @@ export const LeftMenu = ({ children, backgroundColor }: LeftMenuProps) => {
                       },
                     })}
                   >
-                    <ListItemIcon sx={{ minWidth: 24 }}>
-                      {item.icon}
-                    </ListItemIcon>
+                    <ListItemIcon sx={{ minWidth: 24 }}>{item.icon}</ListItemIcon>
                     <Typography>{t(`menu.${item.id}.title`)}</Typography>
                   </ListItemButton>
                 </ListItem>
@@ -163,7 +174,14 @@ export const LeftMenu = ({ children, backgroundColor }: LeftMenuProps) => {
           <Box py={{ md: 4 }} px={{ md: 6 }}>
             <Typography variant="h1">
               {/* replace true and update wrong title for backbutton */}
-              {true ? t(`menu.${active?.id}.subtitle`) : <BackButton title={t(`menu.${active.id}.subtitle`)} />}
+              {enableBackButton ? (
+                <BackButton
+                  title={backButtonTitle ? backButtonTitle : t(`menu.${active.id}.subtitle`)}
+                  onClick={back}
+                />
+              ) : (
+                t(`menu.${active?.id}.subtitle`)
+              )}
             </Typography>
           </Box>
           {children}

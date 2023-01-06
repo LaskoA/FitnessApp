@@ -12,7 +12,9 @@
         "week": "week",
         "month": "month"
       },
-      "add": "Add"
+      "add": "Add",
+      "pause": "Pause",
+      "start": "Start"
     },
     "history": {
       "title": "History",
@@ -74,5 +76,29 @@
     "date": "Date",
     "program": "Program",
     "name": "Training Name"
+  },
+  "programs": {
+    "levels": {
+      "easy": {
+        "title": "Full Body Workout",
+        "subtitle": "Light"
+      },
+      "medium": {
+        "title": "Get rid of side fat",
+        "subtitle": "Medium"
+      },
+      "high": {
+        "title": "Cardio workout",
+        "subtitle": "Heavy"
+      }
+    }
+  },
+  "excercises": {
+    "info": "Program Name",
+    "rest": "Rest",
+    "reps": "Number",
+    "rules": "Performance technique:",
+    "time": "{{value}} sec",
+    "sets": "Repeat"
   }
 }

@@ -1,9 +1,19 @@
+export interface TrainDay {
+  id: number;
+  day: string;
+}
+
+export interface Muscle {
+  id: number;
+  title: string;
+}
+
 export interface Train {
   id: number;
   name: string;
   comment: string;
-  day: number;
-  muscles: number[];
+  day: TrainDay;
+  muscles: Muscle[];
   user: number;
 }
 
@@ -34,5 +44,6 @@ export interface Exercise {
   video: string;
   sets: number;
   reps: number;
+  rest: number;
   timePerRep: number;
 }
