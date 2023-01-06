@@ -18,10 +18,13 @@ import { ProgramAccordionChild } from './ProgramAccordionChild';
 import { ReactComponent as ArrowRightIcon } from '../images/icons/arrow-right.svg';
 
 interface AccordionElementCustomProps {
-  readonly info: string;
-  readonly reps: string;
-  readonly sets: string;
-  readonly timePerRep: string;
+  readonly info?: string;
+  readonly reps?: string;
+  readonly sets?: string;
+  readonly timePerRep?: string;
+  readonly time?: string;
+  readonly rest?: string;
+  readonly quantity?: string;
 }
 
 interface AccordionElementProps {
@@ -41,8 +44,8 @@ const AccordionElement = ({ el, transTitle }: AccordionElementProps) => {
       </Grid>
       <Grid item md={3} display="flex" justifyContent="space-around" color="grey.400">
         <Box>{text(el.reps)}</Box>
+        <Box>{text(el.rest)}</Box>
         <Box>{text(el.sets)}</Box>
-        <Box>{text(el.timePerRep)}</Box>
       </Grid>
     </Grid>
   );
@@ -51,8 +54,7 @@ const AccordionElement = ({ el, transTitle }: AccordionElementProps) => {
 const Accordion = styled((props: AccordionProps) => (
   <MuiAccordion disableGutters elevation={0} sx={{ '&.MuiPaper-root': { p: 0 } }} {...props} />
 ))(({ theme }) => ({
-  // borderBottom: `1px solid ${theme.palette.divider}`,
-  '&:first-child': {
+  '&:first-of-type': {
     borderBottom: 0,
   },
   '&:before': {
@@ -75,8 +77,6 @@ const AccordionSummary = styled((props: AccordionSummaryProps) => (
 
 const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   padding: '16px 32px',
-  // borderBottom: '1px solid',
-  // borderColor: theme.palette.primary.main,
 }));
 
 interface ProgramAccordionProps {
@@ -84,34 +84,26 @@ interface ProgramAccordionProps {
 }
 
 export const ProgramAccordion = ({ items }: ProgramAccordionProps) => {
-  const [expanded, setExpanded] = useState<string | false>('panel1');
-  const [expandedChild, setExpandedChild] = useState<string | false>('panel2');
+  const [expanded, setExpanded] = useState<string | false>('panel0d');
   // const { level } = useParams();
   // console.log(level)
-  // const { data = [] } = useExercisesQuery();
-  // console.log(data);
 
   const handleChange = (panel: string) => (event: React.SyntheticEvent, newExpanded: boolean) => {
     setExpanded(newExpanded ? panel : false);
-  };
-
-  const handleChangeChild = (panel: string) => (event: React.SyntheticEvent, newExpanded: boolean) => {
-    setExpandedChild(newExpanded ? panel : false);
   };
 
   const accordionDetails = {
     info: 'info',
     reps: 'reps',
     sets: 'sets',
-    timePerRep: 'timePerRep',
+    rest: 'rest',
   };
 
   return (
-    // <LeftMenu enableBackButton backButtonTitle="idi na hyi">
-      <Box px={{ md: 6 }}>
-        {/* in future panel1 replace width `panel${index + 1}` for mapping? */}
-        <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
-          <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
+    <Box px={{ md: 6 }}>
+      {items.map((item, index) => (
+        <Accordion key={item.id} expanded={expanded === `panel${index}d`} onChange={handleChange(`panel${index}d`)}>
+          <AccordionSummary aria-controls={`panel${index}d-content`} id={`panel${index}d-header`}>
             <Typography variant="body1">custom text?</Typography>
           </AccordionSummary>
           <AccordionDetails sx={{ color: 'grey.400' }}>
@@ -121,7 +113,7 @@ export const ProgramAccordion = ({ items }: ProgramAccordionProps) => {
             <ProgramAccordionChild items={items} />
           {/* ))} */}
         </Accordion>
-      </Box>
-    // </LeftMenu>
+      ))}
+    </Box>
   );
 };

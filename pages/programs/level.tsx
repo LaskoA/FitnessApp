@@ -1,7 +1,7 @@
 import type { NextPage, GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-import { Program } from '@app/components/Program';
+import { Program } from '@app/programs/components/Program';
 
 const ProgramPage: NextPage = () => {
   return <Program />;

@@ -1,80 +1,82 @@
-import React from 'react';
-import { useMeter, useNumberFormatter } from 'react-aria';
+import { useStopwatch } from 'react-timer-hook';
+import { useTheme } from '@mui/material';
+import { useMeter } from 'react-aria';
+import { useMemo } from 'react';
 
-export function Meter(props) {
-  let { value, minValue = 0, maxValue = 100 } = props;
-  let { meterProps } = useMeter(props);
+import { Exercise } from '@app/queries/types';
 
-  let size = 140;
-  let center = size / 2;
-  let strokeWidth = 4;
-  let r = center - strokeWidth;
-  let c = 2 * r * Math.PI;
-  let a = c * 360;
-  let percentage = (value - minValue) / (maxValue - minValue);
-  let offset = c - percentage * a;
+export interface MeterProps {
+  readonly value: number | undefined;
+  readonly item?: Exercise | undefined;
+}
 
-  let formatter = useNumberFormatter(props.formatOptions);
-  let parts = formatter.formatToParts(value);
-  let valueString = parts.find(p => p.type === 'integer');
-  let unit = parts.find(p => p.type === 'unit');
-  console.log('parts:', valueString, unit);
+export const Meter = ({ value, item }: MeterProps) => {
+  const { palette } = useTheme();
+
+  const maxValue = useMemo(() => {
+    if (value) {
+      return item.timePerRep * item.reps * item.sets;
+    }
+  }, [value]);
+  
+  const { meterProps } = useMeter({ value, maxValue, 'aria-label': 'time' });
+
+  const meter = useMemo(() => {
+    const size = 140;
+    const center = size / 2;
+    const strokeWidth = 4;
+    const r = center - strokeWidth;
+    const c = 2 * r * Math.PI;
+    const a = c;
+    const percentage = value && value / maxValue;
+    const offset = percentage && c - percentage * a;
+
+    return { size, center, strokeWidth, r, c, a, percentage, offset };
+  }, []);
 
   return (
     <svg
       {...meterProps}
-      width={size}
-      height={size}
-      viewBox={`0 0 ${size} ${size}`}
+      width={meter.size}
+      height={meter.size}
+      viewBox={`0 0 ${meter.size} ${meter.size}`}
       fill="none"
-      strokeWidth={strokeWidth}
+      strokeWidth={meter.strokeWidth}
     >
       <circle
         role="presentation"
-        cx={center}
-        cy={center}
-        r={r}
-        stroke="#ECECEC"
-        // strokeOpacity={0.2}
-        strokeDasharray={`${a} ${c}`}
+        cx={meter.center}
+        cy={meter.center}
+        r={meter.r}
+        stroke={palette.grey[100]}
+        strokeDasharray={`${meter.a} ${meter.c}`}
         strokeLinecap="round"
-        transform={`rotate(135 ${center} ${center})`}
+        transform={`rotate(270 ${meter.center} ${meter.center})`}
       />
       <circle
         role="presentation"
-        cx={center}
-        cy={center}
-        r={r}
-        stroke="#CB4920"
-        strokeDasharray={c}
-        strokeDashoffset={offset}
+        cx={meter.center}
+        cy={meter.center}
+        r={meter.r}
+        stroke={palette.secondary.main}
+        strokeDasharray={meter.c}
+        strokeDashoffset={meter.offset}
         strokeLinecap="round"
-        transform={`rotate(135 ${center} ${center})`}
+        transform={`rotate(270 ${meter.center} ${meter.center})`}
       />
       <text
         role="presentation"
-        x={center}
-        y={center + 8}
+        x={meter.center}
+        y={meter.center + 8}
         fontFamily="ui-rounded, system-ui"
         fontSize={18}
+        color={palette.common.black}
         textAnchor="middle"
-        fill="#333434"
+        fill={palette.grey[900]}
       >
-        {/* {valueString.value} */}
+        {/* TODO: upgrade to exercise time */}
         00 : 00 : 00
       </text>
-      {/* <text
-        role="presentation"
-        x={center}
-        y={center + 20 + 25}
-        fontFamily="ui-rounded, system-ui"
-        fontSize={20}
-        textAnchor="middle"
-        fill="dodgerblue"
-        fillOpacity={0.85}
-      >
-        {unit.value}
-      </text> */}
     </svg>
   );
 }

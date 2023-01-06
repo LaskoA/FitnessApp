@@ -3,6 +3,7 @@ import {
   Grid,
   Button,
   Typography,
+  IconButton,
   AccordionProps,
   AccordionSummaryProps,
   Accordion as MuiAccordion,
@@ -12,6 +13,7 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 import { useTranslation } from 'next-i18next';
+import ReactPlayer from 'react-player/youtube';
 
 import { Svg } from '@app/ui/svg';
 import { Exercise } from '@app/queries/types';
@@ -24,6 +26,7 @@ interface AccordionElementCustomProps {
   readonly info: string;
   readonly reps: string;
   readonly sets: string;
+  readonly rest: string;
   readonly timePerRep: string;
 }
 
@@ -35,7 +38,7 @@ interface AccordionElementProps {
 const AccordionElement = ({ el, transTitle }: AccordionElementProps) => {
   const { t } = useTranslation('common');
 
-  const text = (string) => transTitle ? t(`excersices.${string}`) : string;
+  const text = string => (transTitle ? t(`excersices.${string}`) : string);
 
   return (
     <Grid container width={1}>
@@ -44,8 +47,8 @@ const AccordionElement = ({ el, transTitle }: AccordionElementProps) => {
       </Grid>
       <Grid item md={3} display="flex" justifyContent="space-around" color="grey.400">
         <Box>{text(el.reps)}</Box>
+        <Box>{t('excersices.time', { value: el.rest })}</Box>
         <Box>{text(el.sets)}</Box>
-        <Box>{text(el.timePerRep)}</Box>
       </Grid>
     </Grid>
   );
@@ -54,10 +57,7 @@ const AccordionElement = ({ el, transTitle }: AccordionElementProps) => {
 const Accordion = styled((props: AccordionProps) => (
   <MuiAccordion disableGutters elevation={0} sx={{ '&.MuiPaper-root': { p: 0 } }} {...props} />
 ))(({ theme }) => ({
-  // borderBottom: `1px solid ${theme.palette.divider}`,
-  // nextjs tip:
-  // The pseudo class ":first-child" is potentially unsafe when doing server-side rendering. Try changing it to ":first-of-type".
-  '&:first-child': {
+  '&:first-of-type': {
     borderBottom: 0,
   },
   '&:before': {
@@ -68,7 +68,6 @@ const Accordion = styled((props: AccordionProps) => (
 const AccordionSummary = styled((props: AccordionSummaryProps) => (
   <MuiAccordionSummary {...props} sx={{ borderRadius: 2.5, px: 4, py: 1 }} />
 ))(({ theme }) => ({
-  // backgroundColor: theme.palette.primary.main,
   flexDirection: 'row',
   '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
     transform: 'rotate(90deg)',
@@ -80,10 +79,8 @@ const AccordionSummary = styled((props: AccordionSummaryProps) => (
 
 const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   padding: 0,
-  // '&:not(:first-child)': {
-    borderBottom: '1px solid',
-    borderColor: theme.palette.primary.main,
-  // }
+  borderBottom: '1px solid',
+  borderColor: theme.palette.primary.main,
 }));
 
 interface ProgramAccordionChildProps {
@@ -91,66 +88,72 @@ interface ProgramAccordionChildProps {
 }
 
 export const ProgramAccordionChild = ({ items }: ProgramAccordionChildProps) => {
-  // const [expanded, setExpanded] = useState<string | false>('panel1');
-  const [expandedChild, setExpandedChild] = useState<string | false>('panel2');
+  const [expandedChild, setExpandedChild] = useState<string | false>('panel0x');
+  const [isStarted, setStarted] = useState(false);
   const { t } = useTranslation('common');
-  // const { level } = useParams();
-  // console.log(level)
-  // const { data = [] } = useExercisesQuery();
-  // console.log(data);
-
-  // const handleChange = (panel: string) => (event: React.SyntheticEvent, newExpanded: boolean) => {
-  //   setExpanded(newExpanded ? panel : false);
-  // };
 
   const handleChangeChild = (panel: string) => (event: React.SyntheticEvent, newExpanded: boolean) => {
     setExpandedChild(newExpanded ? panel : false);
   };
 
-  const accordionDetails = {
-    info: 'info',
-    reps: 'reps',
-    sets: 'sets',
-    timePerRep: 'timePerRep',
+  const handlePause = () => {
+    setStarted(!isStarted);
+
+    console.log(t(`general.buttons.${isStarted ? 'pause' : 'start'}`))
   };
 
   return (
     <Box>
-      {/* in future panel1 replace width `panel${index + 1}` for mapping? */}
-        {items.map((item, index) => (
+      {items.map((item, index) => {
+        const time = Number(item.timePerRep) * Number(item.sets) * Number(item.reps);
+
+        return (
           <AccordionDetails key={item.id}>
-            <Accordion expanded={expandedChild === `panel${index}`} onChange={handleChangeChild(`panel${index}`)}>
+            <Accordion expanded={expandedChild === `panel${index}x`} onChange={handleChangeChild(`panel${index}x`)}>
               <AccordionSummary aria-controls={`panel${index}x-content`} id={`panel${index}x-header`}>
                 <AccordionElement el={item} />
               </AccordionSummary>
               <AccordionDetails sx={{ color: 'grey.400' }}>
-                {/* <AccordionElement el={accordionDetails} transTitle /> */}
                 <Box sx={{ backgroundColor: 'grey.500' }} p={3}>
                   <Grid container>
-                    <Grid item md={3} display="flex">
-                      <Box height={280} width={280} border="1px solid" m="auto">video</Box>
+                    <Grid item md={5.5} display="flex">
+                      <Box maxHeight={280} maxWidth="100%" m="auto">
+                        {/* add loader while await data? */}
+                        <ReactPlayer
+                          playing={isStarted}
+                          onStart={() => setStarted(true)}
+                          onPlay={() => setStarted(true)}
+                          onPause={() => setStarted(false)}
+                          url={item.video}
+                          style={{ maxWidth: '100%', maxHeight: 280, aspectRatio: '16/9' }}
+                        />
+                      </Box>
                     </Grid>
-                    <Grid item md={3} display="flex" justifyContent="center">
+                    <Grid item md={2.5} display="flex" justifyContent="center" alignItems="center">
                       <Box display="flex" flexDirection="column">
                         <Box height={140} width={140}>
-                          <Meter
-                            formatOptions={{ style: "unit", unit: "mile-per-hour" }}
-                            aria-label="Speed"
-                            maxValue={150}
-                            value={100}
-                          />
+                          <Meter value={time} item={item} />
                         </Box>
+                        {/* TODO: buttons actions */}
                         <Box mt={{ md: 5 }}>
-                          <Button fullWidth variant="contained">{t('general.buttons.pause')}</Button>
+                          <Button fullWidth variant="contained" onClick={handlePause}>
+                            {t(`general.buttons.${isStarted ? 'pause' : 'start'}`)}
+                          </Button>
                           <Box display="flex" justifyContent="space-between" mt={{ md: 4 }}>
-                            <Svg Icon={ReuseIcon} size={24} />
-                            <Svg Icon={ArrowRightIcon} size={24} />
+                            <IconButton sx={{ m: -1 }} onClick={() => console.log('train again')}>
+                              <Svg Icon={ReuseIcon} size={24} />
+                            </IconButton>
+                            <IconButton sx={{ m: -1 }} onClick={() => console.log('next excersice')}>
+                              <Svg Icon={ArrowRightIcon} size={24} />
+                            </IconButton>
                           </Box>
                         </Box>
                       </Box>
                     </Grid>
-                    <Grid item md={6} display="flex" flexDirection="column" my="auto">
-                      <Typography variant="h3" color="common.black">{t('excersices.rules')}</Typography>
+                    <Grid item md={4} display="flex" flexDirection="column" my="auto">
+                      <Typography variant="h3" color="common.black">
+                        {t('excersices.rules')}
+                      </Typography>
                       <Box mt={{ md: 2 }}>
                         <Typography variant="body1">{item.description}</Typography>
                       </Box>
@@ -160,7 +163,8 @@ export const ProgramAccordionChild = ({ items }: ProgramAccordionChildProps) => 
               </AccordionDetails>
             </Accordion>
           </AccordionDetails>
-        ))}
+        );
+      })}
     </Box>
   );
 };

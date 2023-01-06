@@ -10,13 +10,13 @@ import { ReactComponent as ArrowRightIcon } from '../images/icons/arrow-right.sv
 
 export const Programs = () => {
   const params = useParams();
-  const { push, pathname } = useRouter();
+  const { push } = useRouter();
   const { t } = useTranslation('common');
   // useProgramsQuery(params.level)
 
   const levels = [
     {
-      title: 'low',
+      title: 'easy',
       color: 'green.100',
     },
     {
@@ -39,7 +39,8 @@ export const Programs = () => {
                 fullWidth
                 variant="contained"
                 key={item.title}
-                onClick={() => push(`/programs/${item.title}`)}
+                onClick={() => push('/programs/level')}
+                // onClick={() => push(`/programs/${item.title}`)}
                 sx={{ display: 'flex', flexDirection: 'column', backgroundColor: 'primary.main', px: 4, ':hover': {backgroundColor: 'primary.main'} }}
               >
                 <Grid container justifyContent="space-between">

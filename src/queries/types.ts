@@ -44,5 +44,6 @@ export interface Exercise {
   video: string;
   sets: number;
   reps: number;
+  rest: number;
   timePerRep: number;
 }
