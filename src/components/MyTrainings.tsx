@@ -22,7 +22,7 @@ const TabPanel = ({ children, value, index, ...props }: TabPanelProps) => {
       aria-labelledby={`simple-tab-${index}`}
       {...props}
     >
-      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+      {value === index && <Box sx={{ pt: 3 }}>{children}</Box>}
     </div>
   );
 };
@@ -38,6 +38,7 @@ export const MyTrainings = () => {
   const [value, setValue] = useState(0);
   const { t } = useTranslation('common');
   const { data = [], isLoading } = useTrainingsQuery();
+  console.log(data)
 
   const [showModal] = usePlainTrainModal({
     // onClose: () => {},

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from app.models import Shape, Day, Exercise, Muscle, Training
+from app.models import Shape, Day, Exercise, Muscle, Training, Program
 
 
 class ShapeSerializer(serializers.ModelSerializer):
@@ -16,10 +16,17 @@ class DaySerializer(serializers.ModelSerializer):
         fields = ("id", "day", "water")
 
 
+class DayTrainingSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Day
+        fields = ("id", "day")
+
+
 class ExerciseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Exercise
-        fields = ("id", "type", "info", "description", "video", "sets", "reps", "time_per_rep")
+        fields = ("id", "type", "info", "description", "video", "sets", "reps", "rest", "time_per_rep")
 
 
 class MuscleSerializer(serializers.ModelSerializer):
@@ -36,7 +43,22 @@ class MuscleListSerializer(MuscleSerializer):
         fields = ("id", "title", "exercises")
 
 
+class MuscleTrainingSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Muscle
+        fields = ("id", "title")
+
+
+class ProgramSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Program
+        fields = ("id", "name", "difficulty")
+
+
 class TrainingSerializer(serializers.ModelSerializer):
+    program = ProgramSerializer()
+
     class Meta:
         model = Training
-        fields = ("id", "name", "comment", "day", "muscles", "user")
+        fields = ("id", "name", "comment", "day", "muscles", "program", "user")
