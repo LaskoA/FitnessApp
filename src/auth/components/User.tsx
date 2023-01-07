@@ -2,6 +2,7 @@ import { Box, Typography, Grid, TextField, Button, ButtonBase } from '@mui/mater
 import Image, { StaticImageData } from 'next/image';
 import { useRouter } from 'next/router';
 import { useRef, useState } from 'react';
+import { Date } from '../../formik/components/fields/Date';
 
 import { Svg } from '@app/ui/svg';
 
@@ -11,6 +12,9 @@ import { LeftMenu } from '@app/app/components/LeftMenu';
 
 import { ReactComponent as CameraIcon } from '../images/icons/camera-icon.svg';
 import { Avatar } from '@app/cropper';
+import { FormRegistration } from '@app/formik/components/formRegistration/FormRegistration';
+// import { useFormik } from 'formik';
+// import * as yup from 'yup';
 
 export const User = () => {
   // const { data } = useTrainQuery(1);
@@ -20,8 +24,31 @@ export const User = () => {
   // console.log(shape);
   exercises.map(item => console.log(item));
   const { back } = useRouter();
-  const [avatar, setAvatar] = useState<StaticImageData | string>(userAvatar);
-  const avatarRef = useRef<HTMLInputElement | null>(null);
+  // const [avatar, setAvatar] = useState<StaticImageData | string>(userAvatar);
+  // const avatarRef = useRef<HTMLInputElement | null>(null);
+  // const validationSchema = yup.object({
+  //   email: yup
+  //     .string()
+  //     .email('Enter a valid email')
+  //     .required('Email is required'),
+  //   password: yup
+  //     .string()
+  //     .min(8, 'Password should be of minimum 8 characters length')
+  //     .required('Password is required'),
+  // });
+
+  // const formik = useFormik({
+  //   initialValues: {
+  //     email: '',
+  //     password: '',
+  //   },
+  //   validationSchema: validationSchema,
+  //   onSubmit: (values) => {
+  //     alert(JSON.stringify(values, null, 2));
+  //   },
+  // });
+
+  // type FormikType = ReturnType<typeof formik>;
 
   return (
     <LeftMenu>
@@ -44,7 +71,7 @@ export const User = () => {
           </Grid>
           {/* replace textfield later with @app/ui/forms/components/Text */}
           <Grid container mt={2.75} columnSpacing={8}>
-            <Grid item md={6}>
+            {/* <Grid item md={6}>
               <TextField fullWidth placeholder="user.name" />
               <Box mt={1.75}>
                 <TextField fullWidth placeholder="user.surname" />
@@ -52,8 +79,16 @@ export const User = () => {
             </Grid>
             <Grid item md={6}>
               <TextField fullWidth placeholder="user.email" />
-            </Grid>
-            <Grid item md={6} ml="auto" mt={5}>
+            </Grid> */}
+            {/* <form onSubmit={formik.handleSubmit}> */}
+              <FormRegistration />
+              {/* <Date name="Date" label="Date" /> */}
+
+              {/* <Button color="primary" variant="contained" fullWidth type="submit">
+                Submit
+              </Button>
+            </form> */}
+            {/* <Grid item md={6} ml="auto" mt={5}>
               <Grid container columnSpacing={3}>
                 <Grid item md={6}>
                   <Button variant="outlined" fullWidth onClick={back}>
@@ -61,13 +96,12 @@ export const User = () => {
                   </Button>
                 </Grid>
                 <Grid item md={6}>
-                  {/* onclick save changes with formik values onSubmit */}
                   <Button variant="contained" fullWidth onClick={() => {}}>
                     Зберегти
                   </Button>
                 </Grid>
               </Grid>
-            </Grid>
+            </Grid> */}
           </Grid>
         </Grid>
       </Box>
