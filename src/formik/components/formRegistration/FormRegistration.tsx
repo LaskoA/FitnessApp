@@ -297,10 +297,12 @@ import { useRouter } from 'next/router';
 import { DatePicker } from 'formik-mui-lab';
 import { Fragment } from 'react';
 import { FormikRadioGroup } from './FormikRadioGroup';
+import axios from 'axios';
 
 interface Values {
   email: string;
   password: string;
+  username: string;
 }
 
 export const FormRegistration = () => {
@@ -308,13 +310,27 @@ export const FormRegistration = () => {
   const validate = (values: Values) => {
     const errors: Partial<Values> = {};
 
-    if (!values.email) {
-      errors.email = 'Required';
-    } else if (
-      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
-    ) {
-      errors.email = 'Invalid email address';
-    }
+    // if (!values.email) {
+    //   errors.email = 'Email обов\'язковий';
+    // } else if (
+    //   !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
+    // ) {
+    //   errors.email = 'Неправильний email';
+    // }
+
+    // if (!values.password) {
+    //   errors.password = 'Пароль обов\'язковий';
+    // } else if (
+    //   !/(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,}/g.test(values.password)
+    // ) {
+    //   errors.password = 'Пароль має складатися мінімум із 8 символів та містити хоча б по одному із таких символів: число, по одному латинському символу у верхньому та нижньому регістрі!'
+    // }
+
+    // if (!values.name) {
+    //   errors.name = 'Ім\'я обов\'язкове';
+    // } else if (values.name.length < 4) {
+    //   errors.name = 'Ім\'я має містити мінімум 4 символи';
+    // }
 
     return errors;
   }
@@ -325,7 +341,14 @@ export const FormRegistration = () => {
     { setSubmitting }: {setSubmitting: (isSubmitting: boolean) => void}
   ) => {
       setSubmitting(false);
-      console.log(values)
+      console.log(values);
+      axios.post('http://127.0.0.1:8000/user/register/', values)
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
       // alert(JSON.stringify(values, null, 2));
   }
 
@@ -345,6 +368,7 @@ export const FormRegistration = () => {
       initialValues={{
         email: '',
         password: '',
+        username: '',
       }}
       validate={validate}
       onSubmit={handleSubmit}
@@ -355,19 +379,19 @@ export const FormRegistration = () => {
             <Grid item md={6}>
               <Field
                 component={TextField}
-                name="name"
+                name="username"
                 label="Ім'я"
               />
 
               <Field
                 component={TextField}
-                name="surname"
+                name="usersurname"
                 label="Прізвище"
               />
 
               <Field
                 component={TextField}
-                name="date"
+                name="birthdate"
                 type="date"
                 label="Дата народження"
                 InputLabelProps={{ shrink: true }}
