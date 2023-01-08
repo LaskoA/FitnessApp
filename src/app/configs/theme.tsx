@@ -192,7 +192,7 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           color: palette.grey[900],
-          borderRadius: 10,
+          borderRadius: 8,
           backgroundColor: palette.common.white,
         },
         input: {
@@ -208,7 +208,7 @@ export const theme = createTheme({
           },
         },
         notchedOutline: {
-          border: '1px solid grey.200',
+          border: '1px solid transparent',
           transition: 'all .5s',
         },
       },

@@ -1,5 +1,7 @@
-import { FC, MutableRefObject, useRef } from 'react';
+import { FC, MutableRefObject } from 'react';
 import { styled } from '@mui/material/styles';
+import { actions as actionsAvatar } from '../redux/userAvatarSlice';
+import { useAppDispatch } from '@app/redux/hooks';
 
 const Input = styled('input')({
   display: 'none',
@@ -11,12 +13,16 @@ type Props = {
 };
 
 export const Upload: FC<Props> = ({ getUploadedFile, ref }) => {
-  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const dispatch = useAppDispatch();
+  
+  const onChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     let files;
 
     if (event.target) {
       files = event.target.files;
+
+      // dispatch(actionsAvatar.setAvatar(files[0]));
     }
 
     const reader = new FileReader();
