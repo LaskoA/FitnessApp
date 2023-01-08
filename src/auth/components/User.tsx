@@ -65,12 +65,12 @@ export const User = () => {
             </Box>
           </Box>
         </Box>
-        <Grid container px={17.75}>
+        <Grid container px={10.75} xs={12}>
           <Grid item md={12}>
             <Typography variant="h4">Персональні дані</Typography>
           </Grid>
           {/* replace textfield later with @app/ui/forms/components/Text */}
-          <Grid container mt={2.75} columnSpacing={8}>
+          <Grid container mt={2.75}/*  columnSpacing={12} */>
             {/* <Grid item md={6}>
               <TextField fullWidth placeholder="user.name" />
               <Box mt={1.75}>

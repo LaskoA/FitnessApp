@@ -29,7 +29,10 @@ export const FormikRadioGroup = ({
         {...props}
         name={fieldName}
         sx={{
+          pt: 0,
           flexDirection: 'row',
+          justifyContent: 'center',
+          gap: '50px',
         }}
       >
         {options ? renderOptions(options) : children}

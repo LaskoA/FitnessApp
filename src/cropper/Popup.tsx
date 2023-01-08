@@ -1,3 +1,4 @@
+import { useAppSelector } from '@app/redux/hooks';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
@@ -9,15 +10,17 @@ type Props = {
   open: boolean,
   handleClose: () => void,
   getCroppedFile: (img: string) => void,
-  preview: string,
+  // preview: string,
 };
 
 export const Popup: FC<Props> = ({
   open,
   handleClose,
   getCroppedFile,
-  preview,
+  // preview,
 }) => {
+  const { preview } = useAppSelector(state => state.avatar);
+
   return (
     <div>
       <Dialog
@@ -29,19 +32,16 @@ export const Popup: FC<Props> = ({
           p: 5,
         }}
       >
-        {/* <DialogTitle id="alert-dialog-title">Crop Image</DialogTitle> */}
         <DialogContent
           sx={{
             overflowX: 'hidden',
             p: 1,
           }}
         >
-          {/* <DialogContentText id="alert-dialog-description"> */}
-            <CropperDemo
-              preview={preview}
-              getCroppedFile={getCroppedFile}
-            />
-          {/* </DialogContentText> */}
+          <CropperDemo
+            // preview={preview}
+            getCroppedFile={getCroppedFile}
+          />
         </DialogContent>
       </Dialog>
     </div>
