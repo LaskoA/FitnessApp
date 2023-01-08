@@ -12,3 +12,5 @@ media
 .gitignore
 
 /build
+
+db.sqlite3
