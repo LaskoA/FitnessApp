@@ -25,9 +25,9 @@ export const Avatar = () => {
     }
   };
 
-  useEffect(() => {
-    console.log(avatar);
-  }, [avatar]);
+  // useEffect(() => {
+  //   console.log(preview);
+  // }, [preview]);
 
   const getCroppedFile = (img: string) => {
     if (typeof img === 'string') {

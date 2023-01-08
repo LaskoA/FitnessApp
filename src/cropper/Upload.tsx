@@ -21,6 +21,8 @@ export const Upload: FC<Props> = ({ getUploadedFile, ref }) => {
 
     if (event.target) {
       files = event.target.files;
+
+      // dispatch(actionsAvatar.setAvatar(files[0]));
     }
 
     const reader = new FileReader();

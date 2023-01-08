@@ -16,6 +16,18 @@ export const FormRegistration = () => {
   const dispatch = useAppDispatch();
   const { avatar } = useAppSelector(state => state.avatar);
 
+//   const onSaveHandler = () => {
+//     fetch(`http://127.0.0.1:8000/user/register/`, {
+//         method: "post",
+//         credentials: "include", // send cookie with auth
+//         headers: {
+//             "Content-Type": "application/json",
+//             // "X-CSRFToken": document.getElementById("csrf-token").value,
+//         },
+//         body: JSON.stringify({picture: avatar}),
+//      });
+//  }
+
   const handleSubmit = async (
     values: Values,
     { setSubmitting, resetForm }: {
@@ -28,10 +40,11 @@ export const FormRegistration = () => {
       //   await dispatch(actionsAvatar.setAvatarName(values.email))
       //   await dispatch(actionsAvatar.setAvatar(dataURLtoFile(preview, `${avatarName}.png`)))
       // }
+      // console.log(avatar);
+      // onSaveHandler();
+      // const ava = JSON.stringify({picture: avatar});
 
-      console.log(avatar);
-
-      await createUser({...values, picture: avatar });
+      await createUser(values);
       setSubmitting(false);
       resetForm();
     } catch {

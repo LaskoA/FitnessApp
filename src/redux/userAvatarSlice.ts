@@ -4,7 +4,7 @@ import userAvatar from '@app/app/images/user-avatar.png';
 import { StaticImageData } from 'next/image';
 
 export interface CommentsState {
-  avatar: File | null;
+  avatar?: File;
   preview: string | StaticImageData;
 }
 
