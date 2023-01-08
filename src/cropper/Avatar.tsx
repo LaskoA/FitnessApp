@@ -19,9 +19,9 @@ export const Avatar = () => {
     setOpen(false);
 
     if (typeof preview === 'string') {
-      const image = await dataURLtoFile(preview, `${new Date().getTime().toString()}.png`);
+      // const image = await dataURLtoFile(preview, `${new Date().getTime().toString()}.png`);
 
-      dispatch(actionsAvatar.setAvatar(image));
+      dispatch(actionsAvatar.setAvatar(preview));
     }
   };
 

@@ -3,7 +3,7 @@ import { Button, Grid, LinearProgress } from '@mui/material';
 import { Formik, Form, Field, FormikState } from 'formik';
 import { TextField } from 'formik-mui';
 import { useRouter } from 'next/router';
-import { Values } from './typeForm';
+import { TypeForm } from './typeForm';
 import { createUser } from '@app/queries';
 import { validate } from './validateForm';
 import { useAppDispatch, useAppSelector } from '@app/redux/hooks';
@@ -16,23 +16,11 @@ export const FormRegistration = () => {
   const dispatch = useAppDispatch();
   const { avatar } = useAppSelector(state => state.avatar);
 
-//   const onSaveHandler = () => {
-//     fetch(`http://127.0.0.1:8000/user/register/`, {
-//         method: "post",
-//         credentials: "include", // send cookie with auth
-//         headers: {
-//             "Content-Type": "application/json",
-//             // "X-CSRFToken": document.getElementById("csrf-token").value,
-//         },
-//         body: JSON.stringify({picture: avatar}),
-//      });
-//  }
-
   const handleSubmit = async (
-    values: Values,
+    values: TypeForm,
     { setSubmitting, resetForm }: {
       setSubmitting: (isSubmitting: boolean) => void,
-      resetForm: (nextState?: Partial<FormikState<Values>>) => void,
+      resetForm: (nextState?: Partial<FormikState<TypeForm>>) => void,
     },
   ) => {
     try {
@@ -44,7 +32,7 @@ export const FormRegistration = () => {
       // onSaveHandler();
       // const ava = JSON.stringify({picture: avatar});
 
-      await createUser(values);
+      await createUser({...values, base64: avatar});
       setSubmitting(false);
       resetForm();
     } catch {

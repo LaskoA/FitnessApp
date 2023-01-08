@@ -4,7 +4,7 @@ import userAvatar from '@app/app/images/user-avatar.png';
 import { StaticImageData } from 'next/image';
 
 export interface CommentsState {
-  avatar?: File;
+  avatar?: string;
   preview: string | StaticImageData;
 }
 
@@ -17,7 +17,7 @@ export const avatarSlice = createSlice({
   name: 'avatar',
   initialState,
   reducers: {
-    setAvatar: (state, action: PayloadAction<File>) => {
+    setAvatar: (state, action: PayloadAction<string>) => {
       state.avatar = action.payload;
     },
     setPreview: (state, action: PayloadAction<string>) => {

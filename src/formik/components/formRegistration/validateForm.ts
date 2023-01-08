@@ -1,7 +1,7 @@
-import { Values } from "./typeForm";
+import { TypeForm } from "./typeForm";
 
-export const validate = (values: Values) => {
-  const errors: Partial<Values> = {};
+export const validate = (values: TypeForm) => {
+  const errors: Partial<TypeForm> = {};
 
   if (!values.email) {
     errors.email = 'Email обов\'язковий';

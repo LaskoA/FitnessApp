@@ -12,7 +12,10 @@ media
 .gitignore
 
 /build
+<<<<<<< HEAD
 
 db.sqlite3
 
 package-lock.json
+=======
+>>>>>>> develop

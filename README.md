@@ -38,6 +38,7 @@ python manage.py runserver
 - http://127.0.0.1:8000/app/programs/
 - http://127.0.0.1:8000/user/register/
 - http://127.0.0.1:8000/user/change/id/
+- http://127.0.0.1:8000/user/users/
 
 Adding of "id" to each endpoint (for example, http://127.0.0.1:8000/app/trainings/1/) will redirect you to detail page
 
