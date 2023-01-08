@@ -54,12 +54,14 @@ export const FormRegistration = () => {
     >
       {({ submitForm, isSubmitting }) => (
         <Form style={{ width: '100%' }}>
-          <Grid item md={12}>
+          {/* <Grid item md={12}> */}
             <Grid container spacing={5}>
               <Grid
                 container
                 item
-                md={6}
+                // md={7}
+                maxWidth={368}
+                m='auto'
                 direction='column'
                 rowSpacing={1}
               >
@@ -86,7 +88,7 @@ export const FormRegistration = () => {
                     }}
                   />
                 </Grid>
-              </Grid>
+              {/* </Grid>
 
               <Grid
                 container
@@ -94,7 +96,7 @@ export const FormRegistration = () => {
                 md={6}
                 direction='column'
                 rowSpacing={1}
-              >
+              > */}
                 <Grid item>
                   <Field
                     component={TextField}
@@ -122,11 +124,17 @@ export const FormRegistration = () => {
                 </Grid>
               </Grid>
             </Grid>
-          </Grid>
+          {/* </Grid> */}
 
           {isSubmitting && <LinearProgress />}
          
-          <Grid item md={6} pl='20px' ml="auto" mt={4}>
+          <Grid
+            item
+            p='0 20px'
+            m='auto'
+            mt={5}
+            maxWidth={368}
+          >
             <Grid container columnSpacing={3}>
               <Grid item md={6}>
                 <Button variant="outlined" fullWidth onClick={back}>

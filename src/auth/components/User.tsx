@@ -66,7 +66,12 @@ export const User = () => {
           </Box>
         </Box>
         <Grid container px={10.75} xs={12}>
-          <Grid item md={12}>
+          <Grid
+            item
+            // md={7}
+            m='auto'
+            maxWidth={368}
+          >
             <Typography variant="h4">Персональні дані</Typography>
           </Grid>
           {/* replace textfield later with @app/ui/forms/components/Text */}
