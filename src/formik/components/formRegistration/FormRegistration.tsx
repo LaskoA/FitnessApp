@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { Button, Grid, LinearProgress } from '@mui/material';
+import { Button, Grid, LinearProgress, TextField } from '@mui/material';
 import { Formik, Form, Field, FormikState } from 'formik';
-import { TextField } from 'formik-mui';
+// import { TextField } from 'formik-mui';
 import { useRouter } from 'next/router';
 import { TypeForm } from './typeForm';
 import { createUser } from '@app/queries';
@@ -31,6 +31,7 @@ export const FormRegistration = () => {
       // console.log(avatar);
       // onSaveHandler();
       // const ava = JSON.stringify({picture: avatar});
+      console.log({...values, base64: avatar});
 
       await createUser({...values, base64: avatar});
       setSubmitting(false);
@@ -54,77 +55,66 @@ export const FormRegistration = () => {
     >
       {({ submitForm, isSubmitting }) => (
         <Form style={{ width: '100%' }}>
-          {/* <Grid item md={12}> */}
-            <Grid container spacing={5}>
-              <Grid
-                container
-                item
-                // md={7}
-                maxWidth={368}
-                m='auto'
-                direction='column'
-                rowSpacing={1}
-              >
-                <Grid item>
-                  <Field
-                    component={TextField}
-                    name="first_name"
-                    label="Ім'я"
-                    fullWidth
-                    sx={{
-                      height: '70px'
-                    }}
-                  />
-                </Grid>
+          <Grid container spacing={5}>
+            <Grid
+              container
+              item
+              maxWidth={368}
+              m='auto'
+              direction='column'
+              rowSpacing={1}
+            >
+              <Grid item>
+                <Field
+                  component={TextField}
+                  name="first_name"
+                  label="Ім'я"
+                  fullWidth
+                  sx={{
+                    height: '70px',
+                  }}
+                />
+              </Grid>
 
-                <Grid item>
-                  <Field
-                    component={TextField}
-                    name="last_name"
-                    label="Прізвище"
-                    fullWidth
-                    sx={{
-                      height: '70px'
-                    }}
-                  />
-                </Grid>
-              {/* </Grid>
+              <Grid item>
+                <Field
+                  component={TextField}
+                  name="last_name"
+                  label="Прізвище"
+                  fullWidth
+                  sx={{
+                    height: '70px'
+                  }}
+                />
+              </Grid>
+            
+              <Grid item>
+                <Field
+                  component={TextField}
+                  name="email"
+                  type="email"
+                  label="Email"
+                  fullWidth
+                  sx={{
+                    height: '70px',
+                  }}
+                />
+              </Grid>
 
-              <Grid
-                container
-                item
-                md={6}
-                direction='column'
-                rowSpacing={1}
-              > */}
-                <Grid item>
-                  <Field
-                    component={TextField}
-                    name="email"
-                    type="email"
-                    label="Email"
-                    fullWidth
-                    sx={{
-                      height: '70px',
-                    }}
-                  />
-                </Grid>
-
-                <Grid item>
-                  <Field
-                    component={TextField}
-                    type="password"
-                    label="Пароль"
-                    name="password"
-                    fullWidth
-                    sx={{
-                      height: '70px'
-                    }}
-                  />
-                </Grid>
+              <Grid item>
+                <Field
+                  component={TextField}
+                  type="password"
+                  label="Пароль"
+                  name="password"
+                  fullWidth
+                  sx={{
+                    height: '70px'
+                  }}
+                />
               </Grid>
             </Grid>
-          {/* </Grid> */}
+          </Grid>
 
           {isSubmitting && <LinearProgress />}
          

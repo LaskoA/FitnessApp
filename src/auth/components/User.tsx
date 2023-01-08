@@ -65,7 +65,7 @@ export const User = () => {
             </Box>
           </Box>
         </Box>
-        <Grid container px={10.75} xs={12}>
+        <Grid container px={10.75}>
           <Grid
             item
             // md={7}
