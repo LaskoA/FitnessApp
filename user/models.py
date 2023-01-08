@@ -1,3 +1,6 @@
+import base64
+import os
+
 from django.contrib.auth.models import (
     AbstractUser,
     BaseUserManager,
@@ -44,9 +47,19 @@ class User(AbstractUser):
     username = None
     email = models.EmailField(_("email address"), unique=True)
     first_name = models.CharField(_("first name"), max_length=150, blank=False, null=False)
-    picture = models.ImageField(blank=True, null=True, upload_to="avatars")
+    # picture = models.ImageField(blank=True, null=True, upload_to="avatars")
+    base64 = models.CharField(blank=True, null=True, max_length=9999999)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
     objects = UserManager()
+
+    @property
+    def decoded_picture(self):
+        if self.base64:
+            imgdata = base64.b64decode(str(self.base64).split("base64,")[1])
+            filename = f'media/decoded_pictures/{self.id}.png'
+            with open(filename, 'wb') as f:
+                f.write(imgdata)
+            return filename
