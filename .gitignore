@@ -13,9 +13,12 @@ media
 
 /build
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 db.sqlite3
 
 package-lock.json
+=======
+>>>>>>> develop
 =======
 >>>>>>> develop
