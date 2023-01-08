@@ -7,6 +7,7 @@ import Image from 'next/image';
 import 'cropperjs/dist/cropper.css';
 import { useAppDispatch, useAppSelector } from '@app/redux/hooks';
 import { actions as actionsAvatar } from '../redux/userAvatarSlice';
+import { dataURLtoFile } from './dataURLtoFile';
 
 export const Avatar = () => {
   const [open, setOpen] = useState(false);
@@ -17,11 +18,11 @@ export const Avatar = () => {
   const handleClose = async () => {
     setOpen(false);
 
-    // if (typeof preview === 'string') {
-    //   const ggg = await dataURLtoFile(preview, `${new Date().getTime().toString()}.png`);
+    if (typeof preview === 'string') {
+      const image = await dataURLtoFile(preview, `${new Date().getTime().toString()}.png`);
 
-    //   dispatch(actionsAvatar.setAvatar(ggg));
-    // }
+      dispatch(actionsAvatar.setAvatar(image));
+    }
   };
 
   useEffect(() => {
