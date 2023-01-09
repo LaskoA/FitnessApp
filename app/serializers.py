@@ -57,7 +57,6 @@ class ProgramSerializer(serializers.ModelSerializer):
 
 
 class TrainingSerializer(serializers.ModelSerializer):
-    program = ProgramSerializer()
 
     class Meta:
         model = Training
