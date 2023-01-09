@@ -4,10 +4,10 @@ from django.conf import settings
 
 class Shape(models.Model):
     height = models.IntegerField(blank=True, null=True)  # зріст
-    weight = models.IntegerField(blank=True, null=True) # вага
+    weight = models.IntegerField(blank=True, null=True)  # вага
     waist = models.IntegerField(blank=True, null=True)  # талія
     glutes = models.IntegerField(blank=True, null=True)  # сідниці
-    biceps = models.IntegerField(blank=True, null=True) # біцепси
+    biceps = models.IntegerField(blank=True, null=True)  # біцепси
     thighs = models.IntegerField(blank=True, null=True)  # бедра
     calf = models.IntegerField(blank=True, null=True)  # ікри
     neck = models.IntegerField(blank=True, null=True)  # шия
