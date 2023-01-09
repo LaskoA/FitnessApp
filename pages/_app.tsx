@@ -14,6 +14,8 @@ import { theme } from '@app/app/configs/theme';
 import { appConfig } from '@app/app/configs/app';
 import { QueryProvider } from '@app/query/components';
 import { useLanguage, useAutoLocale } from '@app/language';
+import { Provider } from 'react-redux';
+import { store } from '@app/redux/store';
 
 export const createEmotionCache = () => {
   return createCache({ key: 'css', prepend: true });
@@ -32,25 +34,28 @@ const MyApp = ({ Component, emotionCache = clientSideEmotionCache, pageProps }: 
   useAutoLocale();
 
   return (
-    <CacheProvider value={emotionCache}>
-      <Head>
-        <title>FitnessApp</title>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content={`${appConfig.host}${pathname}`} />
-      </Head>
-      <QueryProvider>
-        <ThemeProvider theme={theme}>
-          <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={language === 'ua' ? 'uk' : language}>
-            <ModalProvider>
-              <CssBaseline />
-              <Component {...pageProps} />
-            </ModalProvider>
-          </LocalizationProvider>
-        </ThemeProvider>
-      </QueryProvider>
-    </CacheProvider>
+    <Provider store={store}>
+      <CacheProvider value={emotionCache}>
+        <Head>
+          <title>FitnessApp</title>
+          <meta charSet="utf-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <meta property="og:type" content="website" />
+          <meta property="og:url" content={`${appConfig.host}${pathname}`} />
+        </Head>
+        <QueryProvider>
+          <ThemeProvider theme={theme}>
+            <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={language === 'ua' ? 'uk' : language}>
+              <ModalProvider>
+                <CssBaseline />
+                <Component {...pageProps} />
+              </ModalProvider>
+            </LocalizationProvider>
+          </ThemeProvider>
+        </QueryProvider>
+      </CacheProvider>
+    </Provider>
+    
   );
 };
 

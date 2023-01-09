@@ -3,22 +3,28 @@ import { ButtonBase } from '@mui/material';
 import { Popup } from './Popup';
 import { Upload } from './Upload';
 import Image from 'next/image';
-import userAvatar from '@app/app/images/user-avatar.png';
 
 import 'cropperjs/dist/cropper.css';
+import { useAppDispatch, useAppSelector } from '@app/redux/hooks';
+import { actions as actionsAvatar } from '../redux/userAvatarSlice';
 
 export const Avatar = () => {
   const [open, setOpen] = useState(false);
-  const [preview, setPreview] = useState<string>(userAvatar as unknown as string);
   const avatarRef = useRef<HTMLInputElement | null>(null);
+  const { preview } = useAppSelector(state => state.avatar);
+  const dispatch = useAppDispatch();
 
-  const handleClose = () => {
+  const handleClose = async () => {
     setOpen(false);
+
+    if (typeof preview === 'string') {
+      dispatch(actionsAvatar.setAvatar(preview));
+    }
   };
 
   const getCroppedFile = (img: string) => {
     if (typeof img === 'string') {
-      setPreview(img);
+      dispatch(actionsAvatar.setPreview(img));
     }
 
     handleClose();
@@ -28,7 +34,7 @@ export const Avatar = () => {
     setOpen(true);
 
     if (typeof img === 'string') {
-      setPreview(img);
+      dispatch(actionsAvatar.setPreview(img));
     }
   };
 
@@ -49,10 +55,10 @@ export const Avatar = () => {
         priority
         style={{ objectFit: 'cover' }}
       />
+
       <Upload getUploadedFile={getUploadedFile} ref={avatarRef} />
 
       <Popup
-        preview={preview}
         open={open}
         handleClose={handleClose}
         getCroppedFile={getCroppedFile}
