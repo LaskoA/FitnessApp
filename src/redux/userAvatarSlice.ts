@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import userAvatar from '@app/app/images/user-avatar.png';
 import { StaticImageData } from 'next/image';
@@ -20,7 +19,7 @@ export const avatarSlice = createSlice({
     setAvatar: (state, action: PayloadAction<string>) => {
       state.avatar = action.payload;
     },
-    setPreview: (state, action: PayloadAction<string>) => {
+    setPreview: (state, action: PayloadAction<string | StaticImageData>) => {
       state.preview = action.payload;
     },
   },

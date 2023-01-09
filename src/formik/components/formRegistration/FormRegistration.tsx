@@ -1,43 +1,39 @@
 import { useState } from 'react';
-import { Button, Grid, LinearProgress, TextField } from '@mui/material';
+import { Button, Grid, LinearProgress } from '@mui/material';
 import { Formik, Form, Field, FormikState } from 'formik';
+import { TextField } from 'formik-mui';
 import { useRouter } from 'next/router';
 import { TypeForm } from './typeForm';
 import { createUser } from '@app/queries';
 import { validate } from './validateForm';
-import { useAppSelector } from '@app/redux/hooks';
+import { useAppDispatch, useAppSelector } from '@app/redux/hooks';
+import { actions as actionsAvatar } from '../../../redux/userAvatarSlice';
+import userAvatar from '@app/app/images/user-avatar.png';
 
 export const FormRegistration = () => {
-  // const { back } = useRouter();
+  const { back } = useRouter();
   const [isErrorSubmit, setIsErrorSubmit] = useState(false);
   const { avatar } = useAppSelector(state => state.avatar);
+  const dispatch = useAppDispatch();
 
-  const handleSubmit = (
+  const handleSubmit = async (
     values: TypeForm,
-    // { setSubmitting, resetForm }: {
-    //   setSubmitting: (isSubmitting: boolean) => void,
-    //   resetForm: (nextState?: Partial<FormikState<TypeForm>>) => void,
-    // },
+    { setSubmitting, resetForm }: {
+      setSubmitting: (isSubmitting: boolean) => void,
+      resetForm: (nextState?: Partial<FormikState<TypeForm>>) => void,
+    },
   ) => {
-    console.log(23)
-    // try {
-    //   await createUser({...values, base64: avatar});
-      // setSubmitting(false);
-      // resetForm();
-    // } catch {
-      // setIsErrorSubmit(true);
-    //   setTimeout(setIsErrorSubmit, 5000, false);
-    // }
+    try {
+      await createUser({...values, base64: avatar});
+      dispatch(actionsAvatar.setAvatar(null));
+      dispatch(actionsAvatar.setPreview(userAvatar));
+      setSubmitting(false);
+      resetForm();
+    } catch {
+      setIsErrorSubmit(true);
+      setTimeout(setIsErrorSubmit, 5000, false);
+    }
   }
-
-  // const handleSubmit = ( 
-  //   values: TypeForm,
-  //   { resetForm }: {
-  //     resetForm: (nextState?: Partial<FormikState<TypeForm>>) => void,
-  //   },
-  // ) => {
-  //     resetForm();
-  // }
 
   return (
     <Formik
@@ -50,7 +46,7 @@ export const FormRegistration = () => {
       validate={validate}
       onSubmit={handleSubmit}
     >
-      {({ submitForm/* , isSubmitting */ }) => (
+      {({ submitForm, isSubmitting }) => (
         <Form style={{ width: '100%' }}>
           <Grid container spacing={5}>
             <Grid
@@ -113,17 +109,7 @@ export const FormRegistration = () => {
             </Grid>
           </Grid>
 
-          <Button
-                  variant="contained"
-                  fullWidth
-                  // disabled={isSubmitting}
-                  onClick={submitForm}
-                  // color={isErrorSubmit ? 'error' : 'primary'}
-                >
-                  {isErrorSubmit ? 'Помилка' : 'Зберегти'}
-                </Button>
-
-          {/* {isSubmitting && <LinearProgress />} */}
+          {isSubmitting && <LinearProgress />}
          
           <Grid
             item
@@ -137,21 +123,21 @@ export const FormRegistration = () => {
                 <Button
                   variant="outlined"
                   fullWidth
-                  // onClick={back}
+                  onClick={back}
                 >
                   Скасувати
                 </Button>
               </Grid>
               <Grid item md={6}>
-                {/* <Button
+                <Button
                   variant="contained"
                   fullWidth
-                  // disabled={isSubmitting}
+                  disabled={isSubmitting}
                   onClick={submitForm}
-                  // color={isErrorSubmit ? 'error' : 'primary'}
+                  color={isErrorSubmit ? 'error' : 'primary'}
                 >
                   {isErrorSubmit ? 'Помилка' : 'Зберегти'}
-                </Button> */}
+                </Button>
               </Grid>
             </Grid>
           </Grid>
@@ -159,4 +145,4 @@ export const FormRegistration = () => {
       )}
     </Formik>
   );
-}
+};

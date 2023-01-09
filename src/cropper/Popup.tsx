@@ -32,7 +32,6 @@ export const Popup: FC<Props> = ({
           }}
         >
           <CropperDemo
-            // preview={preview}
             getCroppedFile={getCroppedFile}
           />
         </DialogContent>
