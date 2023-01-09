@@ -1,8 +1,5 @@
-import { useAppSelector } from '@app/redux/hooks';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
 import { FC } from 'react';
 import { CropperDemo } from './Cropper';
 
@@ -10,17 +7,13 @@ type Props = {
   open: boolean,
   handleClose: () => void,
   getCroppedFile: (img: string) => void,
-  // preview: string,
 };
 
 export const Popup: FC<Props> = ({
   open,
   handleClose,
   getCroppedFile,
-  // preview,
 }) => {
-  const { preview } = useAppSelector(state => state.avatar);
-
   return (
     <div>
       <Dialog
@@ -39,7 +32,6 @@ export const Popup: FC<Props> = ({
           }}
         >
           <CropperDemo
-            // preview={preview}
             getCroppedFile={getCroppedFile}
           />
         </DialogContent>
