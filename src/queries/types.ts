@@ -47,3 +47,9 @@ export interface Exercise {
   rest: number;
   timePerRep: number;
 }
+
+export interface Program {
+  id: number;
+  name: string;
+  difficulty: string;
+}

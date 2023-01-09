@@ -6,6 +6,8 @@ import { Date as DateInput, InputSelect } from '@app/ui/forms';
 
 import { appConfig } from '../configs';
 import { ChangeEvent, useEffect, useState } from 'react';
+import { getPrograms, getTrainings } from '@app/queries';
+import { Program } from '@app/queries/types';
 
 export interface PlainTrainModalProps extends DialogProps {
   readonly open: boolean;
@@ -22,23 +24,25 @@ export const PlainTrainModal = ({ open, onClose, children, title, ...props }: Pl
   // const today = getFormatedDate(Date.now()); 
   const today = getFormatedDate(1683474400000); 
   const [date, setDate] = useState(today);
+  const [programs, setPrograms] = useState<Program[]>(null)
+  const [selectedIdProgram, setSelectedIdProgram] = useState<number>(null);
 
   const handleOnChangeDate = (event: any) => {
-    // console.log(event.toDate().getTime());
-    // console.log(new Date());
-    // console.log(Date.now())
     setDate(getFormatedDate(event.toDate().getTime()));
   }
 
-  useEffect(() => {
-    console.log(date)
-  }, [date])
+  const uploadPrograms = async () => {
+    const programs: Program[] = await getPrograms() as unknown as Program[];
+    setPrograms(programs)
+  };
 
-  // const onChangeDate = e => {
-  //   const newDate = moment(new Date(e.target.value)).format('YYYY-MM-DD');
-  //   // setValue(newDate);
-  //   console.log(newDate); //value picked from date picker
-  // };
+  useEffect(() => {
+    uploadPrograms();
+  }, [])
+
+  const handleSelectedIdProgram = (id: number) => {
+    setSelectedIdProgram(id);
+  }
 
 
   return (
@@ -60,11 +64,21 @@ export const PlainTrainModal = ({ open, onClose, children, title, ...props }: Pl
           />
         </Box>
         <Box mt={{ md: 2.75 }}>
-          <InputSelect label={t('general.set.program')} placeholder={t('general.set.example')} />
+          <InputSelect
+            label={t('general.set.program')}
+            placeholder={t('general.set.example')}
+            dataSelect={programs}
+            setSelectedIdProgram={handleSelectedIdProgram}
+          />
         </Box>
       </DialogContent>
       <Box mt={{ md: 4 }} display="flex" mx="auto" width={220}>
-        <Button variant="contained" fullWidth>{t('general.buttons.plain')}</Button>
+        <Button
+          variant="contained"
+          fullWidth
+        >
+          {t('general.buttons.plain')}
+        </Button>
       </Box>
     </Dialog>
   );

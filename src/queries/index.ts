@@ -41,4 +41,8 @@ export const useExercisesQuery = (options: UseQueryOptions<Exercise[], ApiError>
 
 export const createUser = async (data: TypeForm) => {
   return await apiClient.post('user/register/', data);
-} 
+};
+
+export const getPrograms = async () => {
+  return await apiClient.get('app/programs/');
+};
