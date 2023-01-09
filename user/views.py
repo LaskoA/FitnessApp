@@ -14,7 +14,6 @@ class ChangeView(generics.RetrieveUpdateDestroyAPIView):
 
 class UsersViewSet(
     mixins.ListModelMixin,
-    mixins.CreateModelMixin,
     mixins.RetrieveModelMixin,
     mixins.UpdateModelMixin,
     mixins.DestroyModelMixin,
