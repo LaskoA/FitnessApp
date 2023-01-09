@@ -24,7 +24,7 @@ export const validate = (values: TypeForm) => {
   if (!values.first_name) {
     errors.first_name = 'Ім\'я обов\'язкове';
   } else if (values.first_name.length < 4 || values.first_name.length > 150) {
-    errors.first_name = 'Ім\'я має містити від 4 до 150 символи';
+    errors.first_name = 'Ім\'я має містити від 4 до 150 символів';
   }
 
   return errors;
