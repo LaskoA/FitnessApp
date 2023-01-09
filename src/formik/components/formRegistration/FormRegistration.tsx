@@ -1,14 +1,14 @@
 import { useState } from 'react';
-import { Button, Grid, LinearProgress, TextField } from '@mui/material';
+import { Button, Grid, LinearProgress } from '@mui/material';
 import { Formik, Form, Field, FormikState } from 'formik';
-// import { TextField } from 'formik-mui';
+import { TextField } from 'formik-mui';
 import { useRouter } from 'next/router';
 import { TypeForm } from './typeForm';
 import { createUser } from '@app/queries';
 import { validate } from './validateForm';
 import { useAppDispatch, useAppSelector } from '@app/redux/hooks';
 import { actions as actionsAvatar } from '../../../redux/userAvatarSlice';
-import { dataURLtoFile } from '@app/cropper/dataURLtoFile';
+import userAvatar from '@app/app/images/user-avatar.png';
 
 export const FormRegistration = () => {
   const { back } = useRouter();
@@ -24,16 +24,9 @@ export const FormRegistration = () => {
     },
   ) => {
     try {
-      // if (typeof preview === 'string') {
-      //   await dispatch(actionsAvatar.setAvatarName(values.email))
-      //   await dispatch(actionsAvatar.setAvatar(dataURLtoFile(preview, `${avatarName}.png`)))
-      // }
-      // console.log(avatar);
-      // onSaveHandler();
-      // const ava = JSON.stringify({picture: avatar});
-      console.log({...values, base64: avatar});
-
       await createUser({...values, base64: avatar});
+      dispatch(actionsAvatar.setAvatar(null));
+      dispatch(actionsAvatar.setPreview(userAvatar));
       setSubmitting(false);
       resetForm();
     } catch {

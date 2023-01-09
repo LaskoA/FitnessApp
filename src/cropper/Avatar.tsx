@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { ButtonBase } from '@mui/material';
 import { Popup } from './Popup';
 import { Upload } from './Upload';
@@ -7,27 +7,20 @@ import Image from 'next/image';
 import 'cropperjs/dist/cropper.css';
 import { useAppDispatch, useAppSelector } from '@app/redux/hooks';
 import { actions as actionsAvatar } from '../redux/userAvatarSlice';
-import { dataURLtoFile } from './dataURLtoFile';
 
 export const Avatar = () => {
   const [open, setOpen] = useState(false);
   const avatarRef = useRef<HTMLInputElement | null>(null);
-  const { preview, avatar } = useAppSelector(state => state.avatar);
+  const { preview } = useAppSelector(state => state.avatar);
   const dispatch = useAppDispatch();
 
   const handleClose = async () => {
     setOpen(false);
 
     if (typeof preview === 'string') {
-      // const image = await dataURLtoFile(preview, `${new Date().getTime().toString()}.png`);
-
       dispatch(actionsAvatar.setAvatar(preview));
     }
   };
-
-  // useEffect(() => {
-  //   console.log(preview);
-  // }, [preview]);
 
   const getCroppedFile = (img: string) => {
     if (typeof img === 'string') {
