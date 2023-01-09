@@ -20,7 +20,7 @@ export const avatarSlice = createSlice({
     setAvatar: (state, action: PayloadAction<string>) => {
       state.avatar = action.payload;
     },
-    setPreview: (state, action: PayloadAction<string>) => {
+    setPreview: (state, action: PayloadAction<string | StaticImageData>) => {
       state.preview = action.payload;
     },
   },
