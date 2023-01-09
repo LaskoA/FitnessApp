@@ -1,4 +1,4 @@
-import { FC, MutableRefObject, useRef } from 'react';
+import { FC, MutableRefObject } from 'react';
 import { styled } from '@mui/material/styles';
 
 const Input = styled('input')({
@@ -11,7 +11,7 @@ type Props = {
 };
 
 export const Upload: FC<Props> = ({ getUploadedFile, ref }) => {
-  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const onChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     let files;
 

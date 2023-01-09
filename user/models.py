@@ -58,8 +58,12 @@ class User(AbstractUser):
     @property
     def decoded_picture(self):
         if self.base64:
-            imgdata = base64.b64decode(str(self.base64).split("base64,")[1])
-            filename = f'media/decoded_pictures/{self.id}.png'
-            with open(filename, 'wb') as f:
-                f.write(imgdata)
-            return filename
+            try:
+                extension = str(self.base64).split("image/")[1].split(";base64")[0]
+                imgdata = base64.urlsafe_b64decode(str(self.base64).split("base64,")[1])
+                filename = f'media/decoded_pictures/{self.id}.{extension}'
+                with open(filename, 'wb') as f:
+                    f.write(imgdata)
+                return filename
+            except:
+                return None

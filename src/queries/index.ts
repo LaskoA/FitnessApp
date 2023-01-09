@@ -5,6 +5,7 @@ import { AxiosRequestConfig } from 'axios';
 import { apiClient } from '@app/query';
 
 import { Train, ApiError, Shape, Exercise } from './types';
+import { TypeForm } from '@app/formik/components/formRegistration/typeForm';
 
 export const getTraining = async (id?: number, options: AxiosRequestConfig = {}): Promise<Train[]> => {
   return await apiClient.get(`app/trainings/${id}/`, options);
@@ -37,3 +38,7 @@ export const getExercises = async (options: AxiosRequestConfig = {}): Promise<Ex
 export const useExercisesQuery = (options: UseQueryOptions<Exercise[], ApiError> = {}) => {
   return useQuery<Exercise[], ApiError>(['exercise'], getExercises, options);
 };
+
+export const createUser = async (data: TypeForm) => {
+  return await apiClient.post('user/register/', data);
+} 
