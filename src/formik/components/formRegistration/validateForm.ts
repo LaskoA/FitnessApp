@@ -16,7 +16,7 @@ export const validate = (values: TypeForm) => {
   } else if (
     !/(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{5,}/g.test(values.password)
   ) {
-    errors.password = 'Від 5 символів та великі і маленькі латинські літери!'
+    errors.password = 'Від 5 символів, цифри та великі і маленькі латинські літери!'
   } else if (values.password.length > 128) {
     errors.password = 'Пароль не може бути довшим за 128 символів'
   }
