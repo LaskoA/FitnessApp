@@ -5,16 +5,41 @@ import dayjs from 'dayjs';
 import { Date as DateInput, InputSelect } from '@app/ui/forms';
 
 import { appConfig } from '../configs';
+import { ChangeEvent, useEffect, useState } from 'react';
 
 export interface PlainTrainModalProps extends DialogProps {
   readonly open: boolean;
   readonly onClose?: () => void;
 }
 
+const getFormatedDate = (date: number) => {
+  return dayjs(date).format(appConfig.format.date)
+}
+
 export const PlainTrainModal = ({ open, onClose, children, title, ...props }: PlainTrainModalProps) => {
   const{ t } = useTranslation('common');
+  // const today = dayjs(Date.now()).format(appConfig.format.date); 
+  // const today = getFormatedDate(Date.now()); 
+  const today = getFormatedDate(1683474400000); 
+  const [date, setDate] = useState(today);
 
-  const today = dayjs(Date.now()).format(appConfig.format.date);
+  const handleOnChangeDate = (event: any) => {
+    // console.log(event.toDate().getTime());
+    // console.log(new Date());
+    // console.log(Date.now())
+    setDate(getFormatedDate(event.toDate().getTime()));
+  }
+
+  useEffect(() => {
+    console.log(date)
+  }, [date])
+
+  // const onChangeDate = e => {
+  //   const newDate = moment(new Date(e.target.value)).format('YYYY-MM-DD');
+  //   // setValue(newDate);
+  //   console.log(newDate); //value picked from date picker
+  // };
+
 
   return (
     <Dialog
@@ -28,7 +53,11 @@ export const PlainTrainModal = ({ open, onClose, children, title, ...props }: Pl
       </DialogTitle>
       <DialogContent>
         <Box mt={{ md: 2.75 }}>
-          <DateInput label={t('general.set.date')} value={today} onChange={() => {}} />
+          <DateInput
+            label={t('general.set.date')}
+            value={date}
+            onChange={handleOnChangeDate}
+          />
         </Box>
         <Box mt={{ md: 2.75 }}>
           <InputSelect label={t('general.set.program')} placeholder={t('general.set.example')} />
