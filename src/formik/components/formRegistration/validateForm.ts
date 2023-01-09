@@ -1,4 +1,7 @@
 import { TypeForm } from "./typeForm";
+import emojiRegex from 'emoji-regex';
+
+const regex = emojiRegex();
 
 export const validate = (values: TypeForm) => {
   const errors: Partial<TypeForm> = {};
@@ -27,11 +30,16 @@ export const validate = (values: TypeForm) => {
     errors.first_name = 'Ім\'я обов\'язкове';
   } else if ((values.first_name.trim()).length < 4 || (values.first_name.trim()).length > 150) {
     errors.first_name = 'Ім\'я має містити від 4 до 150 символи';
+  } else if (values.first_name.match(regex)) {
+    errors.first_name = 'Ім\'я не має містити емодзі';
   }
 
   if (values.last_name.length > 128) {
     errors.last_name = 'Прізвище не може бути довшим за 128 символів';
+  } else if (values.last_name.match(regex)) {
+    errors.last_name = 'Прізвище не має містити емодзі';
   }
+  
 
   return errors;
 };

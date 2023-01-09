@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import { useState } from 'react';
 import { Button, Grid, LinearProgress } from '@mui/material';
 import { Formik, Form, Field, FormikState } from 'formik';
 import { TextField } from 'formik-mui';
@@ -35,11 +35,6 @@ export const FormRegistration = () => {
     }
   }
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    console.log(event.target.value);
-    // values.first_name = values.first_name;
-  }
-
   return (
     <Formik
       initialValues={{
@@ -65,7 +60,6 @@ export const FormRegistration = () => {
               <Grid item>
                 <Field
                   component={TextField}
-                  // onChange={handleChange}
                   value={values.first_name.trim()}
                   name="first_name"
                   label="Ім'я"
@@ -79,6 +73,7 @@ export const FormRegistration = () => {
               <Grid item>
                 <Field
                   component={TextField}
+                  value={values.last_name.trim()}
                   name="last_name"
                   label="Прізвище"
                   fullWidth
@@ -91,6 +86,7 @@ export const FormRegistration = () => {
               <Grid item>
                 <Field
                   component={TextField}
+                  value={values.email.toLowerCase().trim()}
                   name="email"
                   type="email"
                   label="Email"
@@ -104,6 +100,7 @@ export const FormRegistration = () => {
               <Grid item>
                 <Field
                   component={TextField}
+                  value={values.password.trim()}
                   type="password"
                   label="Пароль"
                   name="password"
