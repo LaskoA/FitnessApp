@@ -1,4 +1,4 @@
-import { Box, Typography, TextField, MenuItem, Stack, Divider } from '@mui/material';
+import { Box, Typography, TextField, MenuItem, Stack, Divider, BoxProps } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 import Table from '@mui/material/Table';
@@ -14,7 +14,7 @@ import { ReactComponent as SelectDownIcon } from '../images/select-down.svg';
 import { Program } from '@app/queries/types';
 import { Dispatch, SetStateAction } from 'react';
 
-export interface InputSelectProps {
+export interface InputSelectProps extends BoxProps {
   readonly label: string;
   readonly placeholder: string;
   dataSelect?: Program[];
@@ -29,15 +29,22 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-export const InputSelect = ({ label, placeholder, dataSelect, setSelectedIdProgram }: InputSelectProps) => {
+export const InputSelect = ({ label, placeholder, dataSelect, setSelectedIdProgram, ...props }: InputSelectProps) => {
   // get options from backend and compare them with common.json
   // add SelectDownIcon as arrow for select dropdown
   // console.log(placeholder)
   return (
-    <Box>
+    <Box {...props}>
       <Typography variant="subtitle1" color="grey.400">{label}</Typography>
       <Box mt={.5}>
-        <TextField select type="text" fullWidth defaultValue={placeholder}>
+        <TextField
+          select type="text"
+          fullWidth
+          defaultValue='asdfasdf'
+          sx={{
+            padding: '0px',
+          }}
+        >
           {dataSelect?.map(program => (
             <MenuItem
               key={program.id}

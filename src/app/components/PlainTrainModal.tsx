@@ -44,6 +44,10 @@ export const PlainTrainModal = ({ open, onClose, children, title, ...props }: Pl
     setSelectedIdProgram(id);
   }
 
+  useEffect(() => {
+    console.log(date)
+  }, [date]);
+
 
   return (
     <Dialog
