@@ -15,6 +15,7 @@ export interface Train {
   day: TrainDay;
   muscles: Muscle[];
   user: number;
+  program: number;
 }
 
 export interface ApiError {

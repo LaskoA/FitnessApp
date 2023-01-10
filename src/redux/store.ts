@@ -1,9 +1,11 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import avatarReducer from './userAvatarSlice';
+import myTrainingsReducer from './myTrainingsSlice';
 
 export const store = configureStore({
   reducer: {
     avatar: avatarReducer,
+    myTrainings: myTrainingsReducer,
   },
 });
 

@@ -7,7 +7,10 @@ import { Date as DateInput, InputSelect } from '@app/ui/forms';
 import { appConfig } from '../configs';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { getPrograms, getTrainings } from '@app/queries';
-import { Program } from '@app/queries/types';
+import { Program, Train } from '@app/queries/types';
+
+import { actions as actionsMyTrainings } from '../../redux/myTrainingsSlice';
+import { useAppDispatch, useAppSelector } from '@app/redux/hooks';
 
 export interface PlainTrainModalProps extends DialogProps {
   readonly open: boolean;
@@ -18,14 +21,25 @@ const getFormatedDate = (date: number) => {
   return dayjs(date).format(appConfig.format.date)
 }
 
+const currentUserId = 1; // get id from current user
+
+type MyTrain = {
+  date: string,
+  program: string,
+  nameTrain: string,
+}
+
 export const PlainTrainModal = ({ open, onClose, children, title, ...props }: PlainTrainModalProps) => {
   const{ t } = useTranslation('common');
   // const today = dayjs(Date.now()).format(appConfig.format.date); 
-  // const today = getFormatedDate(Date.now()); 
-  const today = getFormatedDate(1683474400000); 
+  const today = getFormatedDate(Date.now()); 
   const [date, setDate] = useState(today);
   const [programs, setPrograms] = useState<Program[]>(null)
-  const [selectedIdProgram, setSelectedIdProgram] = useState<number>(null);
+  const [trainings, setTrainings] = useState<Train[]>(null);
+  const [selectedIdTrain, setSelectedIdTrain] = useState<number>(null);
+
+  const { myTrains } = useAppSelector(state => state.myTrainings);
+  const dispatch = useAppDispatch();
 
   const handleOnChangeDate = (event: any) => {
     setDate(getFormatedDate(event.toDate().getTime()));
@@ -36,18 +50,40 @@ export const PlainTrainModal = ({ open, onClose, children, title, ...props }: Pl
     setPrograms(programs)
   };
 
-  useEffect(() => {
-    uploadPrograms();
-  }, [])
+  const uploadTrainings = async () => {
+    const trainingsFromServer = await getTrainings();
 
-  const handleSelectedIdProgram = (id: number) => {
-    setSelectedIdProgram(id);
+    setTrainings(trainingsFromServer.filter(train => train.user === currentUserId));
   }
 
   useEffect(() => {
-    console.log(date)
-  }, [date]);
+    uploadPrograms();
+    uploadTrainings();
+  }, [])
 
+  const handleSelectedIdTrain = (id: number) => {
+    setSelectedIdTrain(id);
+  }
+
+  const handleToPlainTrain = () => {
+    const currentTrain = trainings.find(train => train.id === selectedIdTrain);
+
+    const myTrain: MyTrain = {
+      date,
+      program: programs.find(program => program.id === currentTrain.program)?.name,
+      nameTrain: currentTrain.name,
+    }
+
+    dispatch(actionsMyTrainings.setMyTrain([...myTrains, myTrain]))
+  }
+
+  useEffect(() => {
+    console.log(myTrains)
+  }, [myTrains]);
+
+  // useEffect(() => {
+  //   console.log(date)
+  // }, [date]);
 
   return (
     <Dialog
@@ -71,8 +107,9 @@ export const PlainTrainModal = ({ open, onClose, children, title, ...props }: Pl
           <InputSelect
             label={t('general.set.program')}
             placeholder={t('general.set.example')}
-            dataSelect={programs}
-            setSelectedIdProgram={handleSelectedIdProgram}
+            trainings={trainings}
+            setSelectedIdTrain={handleSelectedIdTrain}
+            // handleToPlainTrain={handleToPlainTrain}
           />
         </Box>
       </DialogContent>
@@ -80,6 +117,7 @@ export const PlainTrainModal = ({ open, onClose, children, title, ...props }: Pl
         <Button
           variant="contained"
           fullWidth
+          onClick={handleToPlainTrain}
         >
           {t('general.buttons.plain')}
         </Button>

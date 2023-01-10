@@ -11,25 +11,33 @@ import Paper from '@mui/material/Paper';
 import { Svg } from '@app/ui/svg';
 
 import { ReactComponent as SelectDownIcon } from '../images/select-down.svg';
-import { Program } from '@app/queries/types';
+import { Program, Train } from '@app/queries/types';
 import { Dispatch, SetStateAction } from 'react';
 
 export interface InputSelectProps extends BoxProps {
   readonly label: string;
   readonly placeholder: string;
-  dataSelect?: Program[];
-  setSelectedIdProgram?: Dispatch<SetStateAction<number>>;
+  trainings?: Train[];
+  setSelectedIdTrain?: Dispatch<SetStateAction<number>>;
+  // handleToPlainTrain: () => void;
 }
 
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-  ...theme.typography.body2,
-  padding: theme.spacing(4),
-  textAlign: 'start',
-  color: theme.palette.text.secondary,
-}));
+// const Item = styled(Paper)(({ theme }) => ({
+//   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+//   ...theme.typography.body2,
+//   padding: theme.spacing(4),
+//   textAlign: 'start',
+//   color: theme.palette.text.secondary,
+// }));
 
-export const InputSelect = ({ label, placeholder, dataSelect, setSelectedIdProgram, ...props }: InputSelectProps) => {
+export const InputSelect = ({
+  label,
+  placeholder,
+  trainings,
+  setSelectedIdTrain,
+  // handleToPlainTrain,
+  ...props
+}: InputSelectProps) => {
   // get options from backend and compare them with common.json
   // add SelectDownIcon as arrow for select dropdown
   // console.log(placeholder)
@@ -40,16 +48,13 @@ export const InputSelect = ({ label, placeholder, dataSelect, setSelectedIdProgr
         <TextField
           select type="text"
           fullWidth
-          defaultValue='asdfasdf'
-          sx={{
-            padding: '0px',
-          }}
+          defaultValue={placeholder}
         >
-          {dataSelect?.map(program => (
+          {trainings?.map(train => (
             <MenuItem
-              key={program.id}
-              value={program.id}
-              onClick={() => setSelectedIdProgram(program.id)}
+              key={train.id}
+              value={train.id}
+              onClick={() => setSelectedIdTrain(train.id)}
             >
               <TableContainer>
                 <Table aria-label="simple table">
@@ -57,10 +62,9 @@ export const InputSelect = ({ label, placeholder, dataSelect, setSelectedIdProgr
                     <TableRow
                       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                     >
-                      <TableCell component="th" scope="row" width={90}>
-                        {program.difficulty}
+                      <TableCell component="th" scope="row">
+                        {train.name}
                       </TableCell>
-                      <TableCell align="left">{program.name}</TableCell>
                     </TableRow>
                   </TableBody>
                 </Table>
