@@ -7,7 +7,7 @@ class ShapeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Shape
         fields = ("id", "height", "weight", "waist", "glutes", "biceps",
-                  "thighs", "calf", "neck", "shoulders", "chest", "forearm", "user")
+                  "thighs", "calf", "neck", "shoulders", "chest", "forearm", "user_id")
 
 
 class DaySerializer(serializers.ModelSerializer):
@@ -16,27 +16,28 @@ class DaySerializer(serializers.ModelSerializer):
         fields = ("id", "day", "water")
 
 
-class DayTrainingSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Day
-        fields = ("id", "day")
-
-
 class ExerciseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Exercise
-        fields = ("id", "type", "info", "description", "video", "sets", "reps", "rest", "time_per_rep")
+        fields = ("id", "type", "info", "description", "muscle", "video", "sets", "reps", "rest", "time_per_rep")
+
+
+class ProgramExerciseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Exercise
+        fields = ("id",)
 
 
 class ProgramSerializer(serializers.ModelSerializer):
+    exercise_id = ProgramExerciseSerializer(source="exercises", many=True, read_only=True)
+
     class Meta:
         model = Program
-        fields = ("id", "name", "difficulty")
+        fields = ("id", "name", "difficulty", "exercise_id")
 
 
 class TrainingSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Training
-        fields = ("id", "name", "comment", "day", "program", "user")
+        fields = ("id", "name", "comment", "day_id", "program_id", "user_id")
