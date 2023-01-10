@@ -23,6 +23,7 @@ class Shape(models.Model):
         return f"Height:{self.height}, Weight:{self.weight}, Waist:{self.waist}"
 
 
+
 class Day(models.Model):
     day = models.DateField()
     water = models.IntegerField(default=0)
@@ -42,6 +43,7 @@ class Exercise(models.Model):
     type = models.CharField(max_length=20, choices=TypeChoices.choices)
     info = models.CharField(max_length=255)
     description = models.CharField(max_length=255)
+    muscle = models.CharField(max_length=20, default="muscle")
     video = models.URLField()
     sets = models.IntegerField()
     reps = models.IntegerField()
@@ -55,17 +57,6 @@ class Exercise(models.Model):
         return self.info
 
 
-class Muscle(models.Model):
-    title = models.CharField(max_length=63)
-    exercises = models.ForeignKey(Exercise, on_delete=models.CASCADE)
-
-    class Meta:
-        ordering = ["title"]
-
-    def __str__(self):
-        return self.title
-
-
 class Program(models.Model):
     class DifficultyChoices(models.TextChoices):
         EASY = "Easy"
@@ -73,6 +64,7 @@ class Program(models.Model):
         HARD = "Hard"
 
     name = models.CharField(max_length=63)
+    exercises = models.ManyToManyField(Exercise)
     difficulty = models.CharField(max_length=20, choices=DifficultyChoices.choices, default="Easy")
 
     class Meta:
@@ -86,7 +78,6 @@ class Training(models.Model):
     name = models.CharField(max_length=63)
     comment = models.CharField(max_length=255, blank=True, null=True)
     day = models.OneToOneField(Day, on_delete=models.CASCADE)
-    muscles = models.ManyToManyField(Muscle)
     program = models.ForeignKey(Program, on_delete=models.CASCADE, blank=True, null=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
