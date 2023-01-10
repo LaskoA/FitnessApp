@@ -46,7 +46,7 @@ export const FormRegistration = () => {
       validate={validate}
       onSubmit={handleSubmit}
     >
-      {({ submitForm, isSubmitting }) => (
+      {({ submitForm, isSubmitting, values }) => (
         <Form style={{ width: '100%' }}>
           <Grid container spacing={5}>
             <Grid
@@ -60,6 +60,7 @@ export const FormRegistration = () => {
               <Grid item>
                 <Field
                   component={TextField}
+                  value={values.first_name.trim()}
                   name="first_name"
                   label="Ім'я"
                   fullWidth
@@ -72,6 +73,7 @@ export const FormRegistration = () => {
               <Grid item>
                 <Field
                   component={TextField}
+                  value={values.last_name.trim()}
                   name="last_name"
                   label="Прізвище"
                   fullWidth
@@ -84,6 +86,7 @@ export const FormRegistration = () => {
               <Grid item>
                 <Field
                   component={TextField}
+                  value={values.email.toLowerCase().trim()}
                   name="email"
                   type="email"
                   label="Email"
@@ -97,6 +100,7 @@ export const FormRegistration = () => {
               <Grid item>
                 <Field
                   component={TextField}
+                  value={values.password.trim()}
                   type="password"
                   label="Пароль"
                   name="password"
