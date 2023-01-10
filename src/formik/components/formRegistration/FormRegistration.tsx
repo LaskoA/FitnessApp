@@ -13,8 +13,8 @@ import userAvatar from '@app/app/images/user-avatar.png';
 export const FormRegistration = () => {
   const { back } = useRouter();
   const [isErrorSubmit, setIsErrorSubmit] = useState(false);
-  const dispatch = useAppDispatch();
   const { avatar } = useAppSelector(state => state.avatar);
+  const dispatch = useAppDispatch();
 
   const handleSubmit = async (
     values: TypeForm,
@@ -124,7 +124,11 @@ export const FormRegistration = () => {
           >
             <Grid container columnSpacing={3}>
               <Grid item md={6}>
-                <Button variant="outlined" fullWidth onClick={back}>
+                <Button
+                  variant="outlined"
+                  fullWidth
+                  onClick={back}
+                >
                   Скасувати
                 </Button>
               </Grid>
@@ -145,4 +149,4 @@ export const FormRegistration = () => {
       )}
     </Formik>
   );
-}
+};

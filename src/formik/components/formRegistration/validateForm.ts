@@ -29,7 +29,7 @@ export const validate = (values: TypeForm) => {
   if (!(values.first_name.trim())) {
     errors.first_name = 'Ім\'я обов\'язкове';
   } else if ((values.first_name.trim()).length < 4 || (values.first_name.trim()).length > 150) {
-    errors.first_name = 'Ім\'я має містити від 4 до 150 символи';
+    errors.first_name = 'Ім\'я має містити від 4 до 150 символів';
   } else if (values.first_name.match(regex)) {
     errors.first_name = 'Ім\'я не має містити емодзі';
   }

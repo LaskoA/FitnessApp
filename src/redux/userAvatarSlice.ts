@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import userAvatar from '@app/app/images/user-avatar.png';
 import { StaticImageData } from 'next/image';
