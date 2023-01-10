@@ -42,6 +42,7 @@ class Exercise(models.Model):
     type = models.CharField(max_length=20, choices=TypeChoices.choices)
     info = models.CharField(max_length=255)
     description = models.CharField(max_length=255)
+    muscle = models.CharField(max_length=20)
     video = models.URLField()
     sets = models.IntegerField()
     reps = models.IntegerField()
