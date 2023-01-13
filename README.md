@@ -31,7 +31,7 @@ python manage.py runserver
 
 - http://127.0.0.1:8000/admin/
 - http://127.0.0.1:8000/app/shapes/
-- http://127.0.0.1:8000/app/days/
+- http://127.0.0.1:8000/app/water/
 - http://127.0.0.1:8000/app/exercises/
 - http://127.0.0.1:8000/app/trainings/
 - http://127.0.0.1:8000/app/programs/
