@@ -70,14 +70,14 @@ export const TrainingsTable: FC<Props> = ({ showTrains }) => {
   useEffect(() => {
     if (showTrains === 'plained') {
       setVisibleTrains(myTrains.filter(train => {
-        if (train.day_id instanceof Date) {
-          return (train.day_id.getTime() + 86400000) >= new Date().getTime();
+        if (train.day instanceof Date) {
+          return (train.day.getTime() + 86400000) >= new Date().getTime();
         }
       }))
     } else if (showTrains === 'history') {
       setVisibleTrains(myTrains.filter(train => {
-        if (train.day_id instanceof Date) {
-          return (train.day_id.getTime() + 86400000) < new Date().getTime();
+        if (train.day instanceof Date) {
+          return (train.day.getTime() + 86400000) < new Date().getTime();
         }
       }));
     }
@@ -100,7 +100,7 @@ export const TrainingsTable: FC<Props> = ({ showTrains }) => {
             <TableRow key={train.id}>
               <TableCell>
                 <Typography variant="subtitle1">
-                  {formatDate(train.day_id)}
+                  {formatDate(train.day)}
                 </Typography>
               </TableCell>
               <TableCell>

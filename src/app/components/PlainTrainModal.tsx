@@ -44,9 +44,8 @@ export const PlainTrainModal = ({ open, onClose, children, title, ...props }: Pl
     comment,
     name,
     program_id,
-    day_id,
+    day,
     user_id,
-    id,
   } = useAppSelector(state => state.plainTrain);
 
   const dispatch = useAppDispatch();
@@ -77,19 +76,16 @@ export const PlainTrainModal = ({ open, onClose, children, title, ...props }: Pl
     console.log(program_id)
 
     const myTrain: MyTrain = {
-      // date,
-      // program: programs.find(program => program.id === currentTrain.program)?.name,
-      // nameTrain: currentTrain.name,
       comment,
       name,
       program_id,
-      day_id,
+      day,
       user_id,
-      id,
+      user: user_id,
     }
 
     try {
-      await createTrains(myTrains)
+      await createTrains(myTrain)
     } catch {
       console.log('error')
     }
@@ -128,7 +124,7 @@ export const PlainTrainModal = ({ open, onClose, children, title, ...props }: Pl
         <Box mt={{ md: 2.75 }}>
           <DateInput
             label={t('general.set.date')}
-            value={day_id}
+            value={day}
             onChange={handleOnChangeDate}
           />
         </Box>

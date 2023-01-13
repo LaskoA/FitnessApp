@@ -47,6 +47,6 @@ export const getPrograms = async () => {
   return await apiClient.get('app/programs/');
 };
 
-export const createTrains = async (data: MyTrain[]) => {
+export const createTrains = async (data: MyTrain) => {
   return await apiClient.post('app/trainings/', data);
 }

@@ -17,7 +17,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 const initialState: MyTrain = {
   // myTrains: [],
-  day_id: null,
+  day: null,
   program_id: null,
   name: '',
   user_id: 1,
@@ -30,7 +30,7 @@ export const plainTrainSlice = createSlice({
   initialState,
   reducers: {
     setDayId: (state, action: PayloadAction<Date>) => {
-      state.day_id = action.payload;
+      state.day = action.payload;
     },
     setProgramId: (state, action: PayloadAction<number>) => {
       state.program_id = action.payload;

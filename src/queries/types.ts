@@ -57,10 +57,11 @@ export interface Program {
 }
 
 export interface MyTrain {
-  day_id: Date;
+  day: Date;
   program_id: number;
   name: string;
   user_id: number;
-  id: number;
+  id?: number;
   comment: string;
+  user?: number;
 }
