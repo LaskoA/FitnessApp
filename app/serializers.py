@@ -33,7 +33,7 @@ class ProgramSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Program
-        fields = ("id", "name", "difficulty", "exercise_id")
+        fields = ("id", "name", "difficulty", "exercises", "exercise_id")
 
 
 class TrainingSerializer(serializers.ModelSerializer):
