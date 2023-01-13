@@ -23,7 +23,6 @@ class Shape(models.Model):
         return f"Height:{self.height}, Weight:{self.weight}, Waist:{self.waist}"
 
 
-
 class Day(models.Model):
     day = models.DateField()
     water = models.IntegerField(default=0)
