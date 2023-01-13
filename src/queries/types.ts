@@ -53,4 +53,14 @@ export interface Program {
   id: number;
   name: string;
   difficulty: string;
+  exercise_id: number[];
+}
+
+export interface MyTrain {
+  day_id: Date;
+  program_id: number;
+  name: string;
+  user_id: number;
+  id: number;
+  comment: string;
 }

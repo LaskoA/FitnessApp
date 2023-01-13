@@ -13,6 +13,8 @@ interface TabPanelProps {
   value: number;
 }
 
+type Tabs = 'plained' | 'history';
+
 const TabPanel = ({ children, value, index, ...props }: TabPanelProps) => {
   return (
     <div
@@ -38,7 +40,7 @@ export const MyTrainings = () => {
   const [value, setValue] = useState(0);
   const { t } = useTranslation('common');
   const { data = [], isLoading } = useTrainingsQuery();
-  console.log(data)
+  // console.log(data)
 
   const [showModal] = usePlainTrainModal({
     // onClose: () => {},
@@ -50,7 +52,7 @@ export const MyTrainings = () => {
     setValue(newValue);
   };
 
-  const tabs = ['plained', 'history'];
+  const tabs: Tabs[] = ['plained', 'history'];
 
   return (
     <LeftMenu>
@@ -72,6 +74,7 @@ export const MyTrainings = () => {
             >
               {tabs.map((item, index) => (
                 <Tab
+                  // onClick={console.log(item)}
                   key={item}
                   label={
                     <Typography variant="body1" textTransform="capitalize">
@@ -107,7 +110,7 @@ export const MyTrainings = () => {
           <TabPanel value={value} index={value}>
             <Box mt={{ md: 2.5 }}>
               {data.map(item => (
-                <TrainingsTable key={item.id} item={item} />
+                <TrainingsTable key={item.id} showTrains={tabs[value]} />
               ))}
             </Box>
           </TabPanel>

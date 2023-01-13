@@ -6,11 +6,13 @@ import { Date as DateInput, InputSelect } from '@app/ui/forms';
 
 import { appConfig } from '../configs';
 import { ChangeEvent, useEffect, useState } from 'react';
-import { getPrograms, getTrainings } from '@app/queries';
-import { Program, Train } from '@app/queries/types';
+import { createTrains, getPrograms, getTrainings } from '@app/queries';
+import { MyTrain, Program, Train } from '@app/queries/types';
 
 import { actions as actionsMyTrainings } from '../../redux/myTrainingsSlice';
+import { actions as actionsPlainTrain } from '../../redux/plainTrainSlice';
 import { useAppDispatch, useAppSelector } from '@app/redux/hooks';
+import { NamedTextField } from '@app/ui/forms/components/NamedTextField';
 
 export interface PlainTrainModalProps extends DialogProps {
   readonly open: boolean;
@@ -21,65 +23,92 @@ const getFormatedDate = (date: number) => {
   return dayjs(date).format(appConfig.format.date)
 }
 
-const currentUserId = 1; // get id from current user
+// const currentUserId = 1; // get id from current user
 
-type MyTrain = {
-  date: string,
-  program: string,
-  nameTrain: string,
-}
+// type MyTrain = {
+//   date: string,
+//   program: string,
+//   nameTrain: string,
+// }
 
 export const PlainTrainModal = ({ open, onClose, children, title, ...props }: PlainTrainModalProps) => {
   const{ t } = useTranslation('common');
   // const today = dayjs(Date.now()).format(appConfig.format.date); 
   const today = getFormatedDate(Date.now()); 
-  const [date, setDate] = useState(today);
-  const [programs, setPrograms] = useState<Program[]>(null)
-  const [trainings, setTrainings] = useState<Train[]>(null);
-  const [selectedIdTrain, setSelectedIdTrain] = useState<number>(null);
+  // const [programs, setPrograms] = useState<Program[]>(null)
+  // const [trainings, setTrainings] = useState<Train[]>(null);
 
   const { myTrains } = useAppSelector(state => state.myTrainings);
+  const { programs } = useAppSelector(state => state.programs);
+  const {
+    comment,
+    name,
+    program_id,
+    day_id,
+    user_id,
+    id,
+  } = useAppSelector(state => state.plainTrain);
+
   const dispatch = useAppDispatch();
 
+  // const uploadPrograms = async () => {
+  //   const programs: Program[] = await getPrograms() as unknown as Program[];
+  //   setPrograms(programs)
+  // };
+
+  // const uploadTrainings = async () => {
+  //   const trainingsFromServer = await getTrainings();
+
+  //   setTrainings(trainingsFromServer.filter(train => train.user === currentUserId));
+  // }
+
   const handleOnChangeDate = (event: any) => {
-    setDate(getFormatedDate(event.toDate().getTime()));
+    // dispatch(actionsPlainTrain.setDayId(event.toDate().getTime()));
+    dispatch(actionsPlainTrain.setDayId(event.toDate()));
   }
 
-  const uploadPrograms = async () => {
-    const programs: Program[] = await getPrograms() as unknown as Program[];
-    setPrograms(programs)
-  };
-
-  const uploadTrainings = async () => {
-    const trainingsFromServer = await getTrainings();
-
-    setTrainings(trainingsFromServer.filter(train => train.user === currentUserId));
+  const handleSelectedProgramId = (id: number) => {
+    // console.log(id)
+    dispatch(actionsPlainTrain.setProgramId(id))
   }
 
-  useEffect(() => {
-    uploadPrograms();
-    uploadTrainings();
-  }, [])
-
-  const handleSelectedIdTrain = (id: number) => {
-    setSelectedIdTrain(id);
-  }
-
-  const handleToPlainTrain = () => {
-    const currentTrain = trainings.find(train => train.id === selectedIdTrain);
+  const handleToPlainTrain = async () => {
+    // const currentTrain = trainings.find(train => train.id === program_id);
+    console.log(program_id)
 
     const myTrain: MyTrain = {
-      date,
-      program: programs.find(program => program.id === currentTrain.program)?.name,
-      nameTrain: currentTrain.name,
+      // date,
+      // program: programs.find(program => program.id === currentTrain.program)?.name,
+      // nameTrain: currentTrain.name,
+      comment,
+      name,
+      program_id,
+      day_id,
+      user_id,
+      id,
     }
 
-    dispatch(actionsMyTrainings.setMyTrain([...myTrains, myTrain]))
+    try {
+      await createTrains(myTrains)
+    } catch {
+      console.log('error')
+    }
+
+    dispatch(actionsMyTrainings.setMyTrains([...myTrains, myTrain]))
   }
 
-  useEffect(() => {
-    console.log(myTrains)
-  }, [myTrains]);
+  const handleNameTrain = (event: ChangeEvent<HTMLInputElement>) => {
+    dispatch(actionsPlainTrain.setName(event.target.value))
+  }
+
+  const handleComment = (event: ChangeEvent<HTMLInputElement>) => {
+    dispatch(actionsPlainTrain.setComment(event.target.value))
+  }
+
+  // useEffect(() => {
+  //   console.log(program_id)
+    // console.log('programs:', programs)
+  // }, [program_id]);
 
   // useEffect(() => {
   //   console.log(date)
@@ -99,17 +128,37 @@ export const PlainTrainModal = ({ open, onClose, children, title, ...props }: Pl
         <Box mt={{ md: 2.75 }}>
           <DateInput
             label={t('general.set.date')}
-            value={date}
+            value={day_id}
             onChange={handleOnChangeDate}
           />
         </Box>
         <Box mt={{ md: 2.75 }}>
+          <NamedTextField
+            title="Назва тренування"
+            placeholder="Назвіть своє тренування"
+            sx={{
+              mb: 2,
+            }}
+            onChange={handleNameTrain}
+          />
+
           <InputSelect
             label={t('general.set.program')}
             placeholder={t('general.set.example')}
-            trainings={trainings}
-            setSelectedIdTrain={handleSelectedIdTrain}
-            // handleToPlainTrain={handleToPlainTrain}
+            programs={programs}
+            setSelectedProgramId={handleSelectedProgramId}
+            sx={{
+              mb: 2,
+            }}
+          />
+
+          <NamedTextField
+            title="Коментар"
+            placeholder="Додайте коментар"
+            sx={{
+              mb: 2,
+            }}
+            onChange={handleComment}
           />
         </Box>
       </DialogContent>

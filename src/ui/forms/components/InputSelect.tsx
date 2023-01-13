@@ -17,8 +17,8 @@ import { Dispatch, SetStateAction } from 'react';
 export interface InputSelectProps extends BoxProps {
   readonly label: string;
   readonly placeholder: string;
-  trainings?: Train[];
-  setSelectedIdTrain?: Dispatch<SetStateAction<number>>;
+  programs?: Program[];
+  setSelectedProgramId?: Dispatch<SetStateAction<number>>;
   // handleToPlainTrain: () => void;
 }
 
@@ -33,8 +33,8 @@ export interface InputSelectProps extends BoxProps {
 export const InputSelect = ({
   label,
   placeholder,
-  trainings,
-  setSelectedIdTrain,
+  programs,
+  setSelectedProgramId,
   // handleToPlainTrain,
   ...props
 }: InputSelectProps) => {
@@ -43,18 +43,20 @@ export const InputSelect = ({
   // console.log(placeholder)
   return (
     <Box {...props}>
-      <Typography variant="subtitle1" color="grey.400">{label}</Typography>
       <Box mt={.5}>
+        <Typography variant="subtitle1" color="grey.400">{label}</Typography>
+        
         <TextField
           select type="text"
           fullWidth
+          placeholder={placeholder}
           defaultValue={placeholder}
         >
-          {trainings?.map(train => (
+          {programs?.map(program => (
             <MenuItem
-              key={train.id}
-              value={train.id}
-              onClick={() => setSelectedIdTrain(train.id)}
+              key={program.id}
+              value={program.id}
+              onClick={() => setSelectedProgramId(program.id)}
             >
               <TableContainer>
                 <Table aria-label="simple table">
@@ -63,7 +65,7 @@ export const InputSelect = ({
                       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                     >
                       <TableCell component="th" scope="row">
-                        {train.name}
+                        {program.name}
                       </TableCell>
                     </TableRow>
                   </TableBody>
