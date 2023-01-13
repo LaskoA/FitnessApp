@@ -37,9 +37,6 @@ class ProgramSerializer(serializers.ModelSerializer):
 
 
 class TrainingSerializer(serializers.ModelSerializer):
-    #day_id = serializers.CharField()
-    #program_id = serializers.CharField()
-    #user_id = serializers.CharField()
 
     class Meta:
         model = Training
