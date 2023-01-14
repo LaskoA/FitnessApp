@@ -7,7 +7,7 @@ export interface trainingState {
 }
 
 const initialState: trainingState = {
-  myTrains: [],
+  myTrains: null,
   // plainTrain: {},
 };
 

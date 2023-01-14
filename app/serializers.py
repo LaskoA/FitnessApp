@@ -40,8 +40,4 @@ class TrainingSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Training
-<<<<<<< HEAD
-        fields = ("id", "name", "comment", "day", "day_id", "program", "program_id", "user", "user_id")
-=======
         fields = ("id", "name", "comment", "day", "program", "user")
->>>>>>> 135191e54167fab4a92fb4bc1535f6b361c76736

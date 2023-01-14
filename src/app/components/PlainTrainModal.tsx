@@ -67,14 +67,10 @@ export const PlainTrainModal = ({ open, onClose, children, title, ...props }: Pl
   }
 
   const handleSelectedProgramId = (id: number) => {
-    // console.log(id)
     dispatch(actionsPlainTrain.setProgramId(id))
   }
 
   const handleToPlainTrain = async () => {
-    // const currentTrain = trainings.find(train => train.id === program_id);
-    console.log(program_id)
-
     const myTrain: MyTrain = {
       comment,
       name,
