@@ -11,11 +11,17 @@ const formatDate = (date: Date = new Date()) => {
   const month = (date.getMonth() + 1).toString().padStart(2, '0');
   const day = date.getDate();
 
-  if (date.getTime() - new Date().getTime() < 0) {
+  if (
+    date.getTime() - new Date().getTime() < 0
+    && date.getTime() - new Date().getTime() > -86400000
+  ) {
     return 'Сьогодні';
   }
 
-  if (date.getTime() - new Date().getTime() < 86400000) {
+  if (
+    date.getTime() - new Date().getTime() < 86400000
+    && date.getTime() - new Date().getTime() > 0
+  ) {
     return 'Завтра';
   }
 
