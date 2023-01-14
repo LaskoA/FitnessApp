@@ -1,27 +1,53 @@
 import { DesktopDatePicker, DesktopDatePickerProps } from '@mui/x-date-pickers/DesktopDatePicker';
 import { Box, IconButton, InputAdornment, TextField, Typography } from '@mui/material';
-import { ReactNode, useState } from 'react';
-import dayjs from 'dayjs';
+import { useTranslation } from 'react-i18next';
+import { ReactNode, useState, useMemo } from 'react';
+import { useField } from 'formik';
+import dayjs, { Dayjs } from 'dayjs';
 
 import { appConfig } from '@app/app/configs';
 
-import { Text } from './Text';
 import { ReactComponent as CalendarIcon } from '../images/calendar-icon.svg';
 
-export interface DateProps extends Omit<DesktopDatePickerProps<any, any>, 'renderInput'> {
+export interface DateProps extends Omit<Omit<DesktopDatePickerProps<any, any>, 'renderInput'>, 'value' | 'onChange'> {
   readonly helperText?: ReactNode;
-  readonly error?: boolean;
   readonly placeholder?: string;
-  readonly label: string;
+  readonly label?: string;
+  readonly name: string;
 }
 
-export const Date = ({ value, helperText, error, placeholder, label, ...props }: DateProps) => {
+export function useErrorTranslations(
+  field: string,
+  error?: { key: string; values?: Record<string, string | number> } | string,
+) {
+  const { t } = useTranslation('common');
+
+  return useMemo(() => {
+    if (typeof error === 'object') {
+      return t(`general.validations.${error.key}`, {
+        ...error.values,
+        field: field || t('general.this'),
+      });
+    }
+
+    return error;
+  }, [error]);
+}
+
+export const Date = ({ helperText, placeholder, className, name, label, ...props }: DateProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [{ value }, { touched, error }, { setValue }] = useField(name);
+
+  const errorHelperText = useErrorTranslations(typeof label === 'string' ? label : name, error);
+
+  const isError = Boolean(touched && errorHelperText);
 
   return (
     <Box>
-      <Typography variant="subtitle1" color="grey.400">{label}</Typography>
-      <Box mt={.5}>
+      <Typography variant="subtitle1" color="grey.400">
+        {label}
+      </Typography>
+      <Box mt={0.5}>
         <DesktopDatePicker
           open={isOpen}
           onOpen={() => setIsOpen(true)}
@@ -34,8 +60,8 @@ export const Date = ({ value, helperText, error, placeholder, label, ...props }:
               <TextField
                 {...params}
                 fullWidth
+                error={isError}
                 helperText={helperText}
-                error={error}
                 inputProps={{ ...inputProps, placeholder }}
                 InputProps={{
                   ...InputProps,

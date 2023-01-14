@@ -28,9 +28,10 @@ import { ReactComponent as ParametersIcon } from '../images/icons/parameters.svg
 import { ReactComponent as PlanAndDoIcon } from '../images/icons/plan-and-do.svg';
 import { ReactComponent as StrongHandIcon } from '../images/icons/strong-hand.svg';
 import { ReactComponent as WeightliftingIcon } from '../images/icons/weightlifting.svg';
+import { ReactComponent as UserIcon } from '../images/icons/user.svg';
 
 export interface LeftMenuProps {
-  readonly children: ReactNode;
+  readonly children?: ReactNode;
   readonly backgroundColor?: string;
   readonly enableBackButton?: boolean;
   readonly backButtonTitle?: string;
@@ -111,10 +112,22 @@ export const LeftMenu = ({ children, backgroundColor, enableBackButton = false, 
             </Box>
           </Box>
           {user && (
-            <Box color="common.white" display="flex" flexDirection="column" alignItems="center" mt={{ md: 7 }}>
-              <Image src={avatar.src} alt="avatar" height={80} width={80} style={{ borderRadius: '50%' }} />
+            <Box
+              color="common.white"
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
+              mt={{ md: 7 }}
+              onClick={() => push('/change')}
+              sx={{ ':hover': { cursor: 'pointer' } }}
+            >
+              {true ? (
+                <Svg Icon={UserIcon} />
+              ) : (
+                <Image src={avatar.src} alt="avatar" height={80} width={80} style={{ borderRadius: '50%' }} />
+              )}
               {/* user.fullName */}
-              <Box mt={{ md: 2 }}>АРТУР АРТУРЕНКО</Box>
+              <Box mt={{ md: 2 }}>username</Box>
             </Box>
           )}
           <List>
@@ -172,17 +185,11 @@ export const LeftMenu = ({ children, backgroundColor, enableBackButton = false, 
       <Grid container>
         <Grid item xs={12} sx={{ backgroundColor: backgroundColor }}>
           <Box py={{ md: 4 }} px={{ md: 6 }}>
-            <Typography variant="h1">
-              {/* replace true and update wrong title for backbutton */}
-              {enableBackButton ? (
-                <BackButton
-                  title={backButtonTitle ? backButtonTitle : t(`menu.${active.id}.subtitle`)}
-                  onClick={back}
-                />
-              ) : (
-                t(`menu.${active?.id}.subtitle`)
-              )}
-            </Typography>
+            {enableBackButton ? (
+              <BackButton title={backButtonTitle ? backButtonTitle : t(`menu.${active.id}.subtitle`)} onClick={back} />
+            ) : (
+              <Typography variant="h1">{t(`menu.${active?.id}.subtitle`)}</Typography>
+            )}
           </Box>
           {children}
         </Grid>

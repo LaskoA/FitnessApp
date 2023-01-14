@@ -1,10 +1,11 @@
 import { useMutation, UseMutationOptions, useQuery, UseQueryOptions } from '@tanstack/react-query';
+import snakecaseKeys from 'snakecase-keys';
 import camelcaseKeys from 'camelcase-keys';
 import { AxiosRequestConfig } from 'axios';
 
 import { apiClient } from '@app/query';
 
-import { Train, ApiError, Shape, Exercise, MyTrain } from './types';
+import { Train, ApiError, Shape, Exercise, Program, MyTrain } from './types';
 import { TypeForm } from '@app/formik/components/formRegistration/typeForm';
 
 export const getTraining = async (id?: number, options: AxiosRequestConfig = {}): Promise<Train[]> => {
@@ -32,7 +33,7 @@ export const useShapesQuery = (options: UseQueryOptions<Shape, ApiError> = {}) =
 };
 
 export const getExercises = async (options: AxiosRequestConfig = {}): Promise<Exercise[]> => {
-  return camelcaseKeys(await apiClient.get('app/exercises/', options));
+  return camelcaseKeys(await apiClient.get('app/exercises/', options), { deep: true });
 };
 
 export const useExercisesQuery = (options: UseQueryOptions<Exercise[], ApiError> = {}) => {

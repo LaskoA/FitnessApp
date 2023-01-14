@@ -23,6 +23,7 @@
     "i18next": "^22.4.8",
     "next": "^13.0.7",
     "next-i18next": "^13.0.3",
+    "nullfined": "^1.1.0",
     "react": "^18.2.0",
     "react-aria": "^3.22.0",
     "react-cropper": "^2.1.8",

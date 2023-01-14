@@ -26,9 +26,17 @@ export interface ApiError {
 }
 
 export interface Shape {
-  height: number,
-  weight: number,
-  waist: number,
+  height: number;
+  weight: number;
+  waist: number;
+  glutes: number;
+  biceps: number;
+  thighs: number;
+  calf: number;
+  neck: number;
+  shoulders: number;
+  chest: number;
+  forearm: number;
 }
 
 export interface Shapes {
@@ -47,6 +55,17 @@ export interface Exercise {
   reps: number;
   rest: number;
   timePerRep: number;
+}
+
+export interface ProgramExercise {
+  id: number;
+}
+
+export interface Program {
+  id: number;
+  name: string;
+  difficulty: string;
+  exerciseId: ProgramExercise[];
 }
 
 export interface Program {

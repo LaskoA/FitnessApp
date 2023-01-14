@@ -12,6 +12,7 @@ import {
 import { useState } from 'react';
 import { useTranslation } from 'next-i18next';
 
+import { useParams } from '@app/query';
 import { Exercise } from '@app/queries/types';
 
 import { ProgramAccordionChild } from './ProgramAccordionChild';
@@ -81,12 +82,14 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 
 interface ProgramAccordionProps {
   readonly items: Exercise[];
+  readonly difficulty: string;
 }
 
-export const ProgramAccordion = ({ items }: ProgramAccordionProps) => {
+export const ProgramAccordion = ({ items, difficulty }: ProgramAccordionProps) => {
   const [expanded, setExpanded] = useState<string | false>('panel0d');
-  // const { level } = useParams();
-  // console.log(level)
+  const { level } = useParams();
+  console.log(level)
+  console.log(items)
 
   const handleChange = (panel: string) => (event: React.SyntheticEvent, newExpanded: boolean) => {
     setExpanded(newExpanded ? panel : false);
@@ -100,11 +103,11 @@ export const ProgramAccordion = ({ items }: ProgramAccordionProps) => {
   };
 
   return (
-    <Box px={{ md: 6 }}>
+    <Box px={{ md: 6 }} display="flex" flexDirection="column" gap={{ md: 1 }} pb={{ md: 7 }}>
       {items.map((item, index) => (
         <Accordion key={item.id} expanded={expanded === `panel${index}d`} onChange={handleChange(`panel${index}d`)}>
           <AccordionSummary aria-controls={`panel${index}d-content`} id={`panel${index}d-header`}>
-            <Typography variant="body1">custom text?</Typography>
+            <Typography variant="body1">{item.type}</Typography>
           </AccordionSummary>
           <AccordionDetails sx={{ color: 'grey.400' }}>
             <AccordionElement el={accordionDetails} transTitle />
