@@ -3,7 +3,7 @@ from rest_framework.viewsets import GenericViewSet
 
 from app.models import (
     Shape,
-    Day,
+    Water,
     Exercise,
     Training,
     Program,
@@ -11,7 +11,7 @@ from app.models import (
 
 from app.serializers import (
     ShapeSerializer,
-    DaySerializer,
+    WaterSerializer,
     ExerciseSerializer,
     TrainingSerializer,
     ProgramSerializer,
@@ -30,7 +30,7 @@ class ShapeViewSet(
     serializer_class = ShapeSerializer
 
 
-class DayViewSet(
+class WaterViewSet(
     mixins.ListModelMixin,
     mixins.CreateModelMixin,
     mixins.RetrieveModelMixin,
@@ -38,8 +38,8 @@ class DayViewSet(
     mixins.DestroyModelMixin,
     viewsets.GenericViewSet
 ):
-    queryset = Day.objects.all()
-    serializer_class = DaySerializer
+    queryset = Water.objects.all()
+    serializer_class = WaterSerializer
 
 
 class ExerciseViewSet(
