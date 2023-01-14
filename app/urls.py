@@ -3,7 +3,7 @@ from rest_framework import routers
 
 from app.views import (
     ShapeViewSet,
-    DayViewSet,
+    WaterViewSet,
     ExerciseViewSet,
     TrainingViewSet,
     ProgramViewSet,
@@ -12,7 +12,7 @@ from app.views import (
 router = routers.DefaultRouter()
 
 router.register("shapes", ShapeViewSet)
-router.register("days", DayViewSet)
+router.register("water", WaterViewSet)
 router.register("exercises", ExerciseViewSet)
 router.register("trainings", TrainingViewSet)
 router.register("programs", ProgramViewSet)

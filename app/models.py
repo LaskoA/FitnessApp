@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from datetime import date
 
 
 class Shape(models.Model):
@@ -23,15 +24,16 @@ class Shape(models.Model):
         return f"Height:{self.height}, Weight:{self.weight}, Waist:{self.waist}"
 
 
-class Day(models.Model):
-    day = models.DateField()
+class Water(models.Model):
+    date = models.DateField(default=date.today)
     water = models.IntegerField(default=0)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     class Meta:
-        ordering = ["day"]
+        ordering = ["date"]
 
     def __str__(self):
-        return str(self.day)
+        return str(self.date)
 
 
 class Exercise(models.Model):
@@ -76,12 +78,12 @@ class Program(models.Model):
 class Training(models.Model):
     name = models.CharField(max_length=63)
     comment = models.CharField(max_length=255, blank=True, null=True)
-    day = models.OneToOneField(Day, on_delete=models.CASCADE)
-    program = models.ForeignKey(Program, on_delete=models.CASCADE, blank=True, null=True)
+    date = models.DateField(default=date.today)
+    program = models.ForeignKey(Program, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     class Meta:
-        ordering = ["day"]
+        ordering = ["date"]
 
     def __str__(self):
         return self.name
