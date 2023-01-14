@@ -7,13 +7,19 @@ import { actions as actionsMyTrainings, removeTrain } from '../../redux/myTraini
 
 
 const formatDate = (date: Date = new Date()) => {
-  if (date instanceof Date) {
-    const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const day = date.getDate();
-  
-    return `${day}.${month}.${year}`;
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const day = date.getDate();
+
+  if (date.getTime() - new Date().getTime() < 0) {
+    return 'Сьогодні';
   }
+
+  if (date.getTime() - new Date().getTime() < 86400000) {
+    return 'Завтра';
+  }
+
+  return `${day}.${month}.${year}`;
 }
 
 type Props = {
