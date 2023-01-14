@@ -15,6 +15,7 @@ export interface Train {
   day: TrainDay;
   muscles: Muscle[];
   user: number;
+  program: number;
 }
 
 export interface ApiError {
@@ -46,4 +47,21 @@ export interface Exercise {
   reps: number;
   rest: number;
   timePerRep: number;
+}
+
+export interface Program {
+  id: number;
+  name: string;
+  difficulty: string;
+  exercise_id: number[];
+}
+
+export interface MyTrain {
+  date: number | Date;
+  // timeStamp?: number; 
+  program: number;
+  name: string;
+  user: number;
+  id?: number;
+  comment: string;
 }
