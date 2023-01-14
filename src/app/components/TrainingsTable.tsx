@@ -1,4 +1,6 @@
-import { Typography, Table, TableContainer, TableHead, TableRow, TableCell, TableBody } from '@mui/material';
+import React from 'react';
+import { Typography, Table, TableContainer, TableHead, TableRow, TableCell, TableBody, IconButton } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { useTranslation } from 'next-i18next';
 import dayjs from 'dayjs';
 
@@ -9,37 +11,21 @@ import { useAppDispatch, useAppSelector } from '@app/redux/hooks';
 import { FC, useEffect, useState } from 'react';
 import { actions as actionsMyTrainings } from '../../redux/myTrainingsSlice';
 import { actions as actionsPrograms } from '../../redux/programsSlice';
-import { getPrograms, getTrainings } from '@app/queries';
-
-// export interface TrainingsTableProps {
-//   readonly item: Train;
-// }
+import { deleteTrain, getPrograms, getTrainings } from '@app/queries';
+import { TrainTableRow } from './TrainTableRow';
 
 type Props = {
   showTrains: 'plained' | 'history',
 }
 
-const formatDate = (date: Date = new Date()) => {
-  if (date instanceof Date) {
-    const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const day = date.getDate();
-  
-    return `${day}.${month}.${year}`;
-  }
-}
-
-const currentUserId = 1; // get id from current user
-
 export const TrainingsTable: FC<Props> = ({ showTrains }) => {
-  console.log(showTrains);
   const { t } = useTranslation('common');
 
   const thead = ['date', 'program', 'name'];
   
   const [visibleTrains, setVisibleTrains] = useState<MyTrain[]>([]);
   const { myTrains } = useAppSelector(state => state.myTrainings);
-  const { programs } = useAppSelector(state => state.programs);
+  const { user } = useAppSelector(state => state.plainTrain);
   const dispatch = useAppDispatch();
 
   const uploadPrograms = async () => {
@@ -52,36 +38,36 @@ export const TrainingsTable: FC<Props> = ({ showTrains }) => {
     const trainingsFromServer = await getTrainings();
 
     dispatch(actionsMyTrainings.setMyTrains(
-      trainingsFromServer.filter(train => train.user_id === currentUserId),
+      trainingsFromServer.filter(train => train.user === user),
     ));
-  };
-
-  const getNameProgram = (id: number): string => {
-    const program: Program = programs.find(program => program.id === id);
-
-    return program.name;
   };
 
   useEffect(() => {
     uploadTrainings();
     uploadPrograms();
-  },[]);
+  }, []);
 
   useEffect(() => {
     if (showTrains === 'plained') {
-      setVisibleTrains(myTrains.filter(train => {
-        if (train.day instanceof Date) {
-          return (train.day.getTime() + 86400000) >= new Date().getTime();
-        }
-      }))
+      setVisibleTrains(myTrains?.filter(train => (
+        (+train.date + 86400000) >= new Date().getTime()
+      )))
     } else if (showTrains === 'history') {
-      setVisibleTrains(myTrains.filter(train => {
-        if (train.day instanceof Date) {
-          return (train.day.getTime() + 86400000) < new Date().getTime();
-        }
-      }));
+      setVisibleTrains(myTrains?.filter(train => (
+        (+train.date + 86400000) < new Date().getTime()
+      )));
     }
   }, [myTrains, showTrains]);
+
+  const getSortedTrains = () => {
+    return visibleTrains && [...visibleTrains].sort((a, b) => {
+      if (showTrains === 'plained') {
+        return +a.date - +b.date;
+      } else {
+        return +b.date - +a.date;
+      }
+    })
+  }
 
   return (
     <TableContainer>
@@ -96,27 +82,15 @@ export const TrainingsTable: FC<Props> = ({ showTrains }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {visibleTrains.map(train => (
-            <TableRow key={train.id}>
-              <TableCell>
-                <Typography variant="subtitle1">
-                  {formatDate(train.day)}
-                </Typography>
-              </TableCell>
-              <TableCell>
-                <Typography variant="subtitle1" color="grey.400">
-                  {getNameProgram(train.program_id)}
-                </Typography>
-              </TableCell>
-              <TableCell>
-                <Typography variant="subtitle1" color="grey.400">
-                  {train.name}
-                </Typography>
-              </TableCell>
+          {getSortedTrains()?.map(train => (
+            <TableRow
+              key={train.id}
+            >
+              <TrainTableRow train={train} />
             </TableRow>
           ))}
         </TableBody>
       </Table>
     </TableContainer>
   );
-};
+}

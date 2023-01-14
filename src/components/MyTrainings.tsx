@@ -109,9 +109,10 @@ export const MyTrainings = () => {
         ) : (
           <TabPanel value={value} index={value}>
             <Box mt={{ md: 2.5 }}>
-              {data.map(item => (
-                <TrainingsTable key={item.id} showTrains={tabs[value]} />
-              ))}
+              {/* {data.map(item => ( */}
+                {/* <TrainingsTable key={item.id} showTrains={tabs[value]} /> */}
+                <TrainingsTable showTrains={tabs[value]} />
+              {/* ))} */}
             </Box>
           </TabPanel>
         )}

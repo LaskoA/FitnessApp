@@ -36,19 +36,29 @@ export const PlainTrainModal = ({ open, onClose, children, title, ...props }: Pl
   // const today = dayjs(Date.now()).format(appConfig.format.date); 
   const today = getFormatedDate(Date.now()); 
   // const [programs, setPrograms] = useState<Program[]>(null)
-  // const [trainings, setTrainings] = useState<Train[]>(null);
+  const [isCreating, setIsCreating] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   const { myTrains } = useAppSelector(state => state.myTrainings);
   const { programs } = useAppSelector(state => state.programs);
   const {
     comment,
     name,
-    program_id,
-    day,
-    user_id,
+    program,
+    date,
+    user,
   } = useAppSelector(state => state.plainTrain);
 
   const dispatch = useAppDispatch();
+
+  const getErrorMessage = () => {
+    if (!name || !date || !program) {
+      return 'Ім\'я, дата та програма обов\'язкові';
+    }
+
+    return 'Щось пішло не так';
+  }
 
   // const uploadPrograms = async () => {
   //   const programs: Program[] = await getPrograms() as unknown as Program[];
@@ -60,51 +70,76 @@ export const PlainTrainModal = ({ open, onClose, children, title, ...props }: Pl
 
   //   setTrainings(trainingsFromServer.filter(train => train.user === currentUserId));
   // }
+  const resetPlainTrain = () => {
+    dispatch(actionsPlainTrain.setName(''));
+    dispatch(actionsPlainTrain.setDate(null));
+    dispatch(actionsPlainTrain.setProgram(null));
+    dispatch(actionsPlainTrain.setId(null));
+    dispatch(actionsPlainTrain.setComment(''));
+  }
 
   const handleOnChangeDate = (event: any) => {
     // dispatch(actionsPlainTrain.setDayId(event.toDate().getTime()));
-    dispatch(actionsPlainTrain.setDayId(event.toDate()));
+    // console.log(event.toDate())
+    setIsError(false);
+    dispatch(actionsPlainTrain.setDate(event?.toDate()));
   }
 
+  // useEffect(() => {
+  //   console.log(date)
+  // }, [date])
+
   const handleSelectedProgramId = (id: number) => {
-    dispatch(actionsPlainTrain.setProgramId(id))
+    setIsError(false);
+    dispatch(actionsPlainTrain.setProgram(id))
   }
 
   const handleToPlainTrain = async () => {
+    if (!name || !date || !program) {
+      setIsError(true);
+      return;
+    }
+
+    let timeStamp: number;
+
+    if (date instanceof Date) {
+      timeStamp = date.getTime();
+    }
+
     const myTrain: MyTrain = {
       comment,
       name,
-      program_id,
-      day,
-      user_id,
-      user: user_id,
-    }
+      program,
+      date: timeStamp,
+      user,
+    };
 
     try {
-      await createTrains(myTrain)
-    } catch {
-      console.log('error')
-    }
+      setIsCreating(true);
+      const plainedTrain = await createTrains(myTrain);
 
-    dispatch(actionsMyTrainings.setMyTrains([...myTrains, myTrain]))
+      plainedTrain.date = new Date(+plainedTrain.date);
+
+      dispatch(actionsMyTrainings.setMyTrains([...myTrains, plainedTrain]));
+      setIsSuccess(true);
+      resetPlainTrain();
+    } catch {
+      setIsError(true);
+      setTimeout(setIsError, 5000, false);
+    } finally {
+      setTimeout(setIsSuccess, 5000, false);
+      setIsCreating(false);
+    }
   }
 
   const handleNameTrain = (event: ChangeEvent<HTMLInputElement>) => {
+    setIsError(false);
     dispatch(actionsPlainTrain.setName(event.target.value))
   }
 
   const handleComment = (event: ChangeEvent<HTMLInputElement>) => {
     dispatch(actionsPlainTrain.setComment(event.target.value))
   }
-
-  // useEffect(() => {
-  //   console.log(program_id)
-    // console.log('programs:', programs)
-  // }, [program_id]);
-
-  // useEffect(() => {
-  //   console.log(date)
-  // }, [date]);
 
   return (
     <Dialog
@@ -120,7 +155,7 @@ export const PlainTrainModal = ({ open, onClose, children, title, ...props }: Pl
         <Box mt={{ md: 2.75 }}>
           <DateInput
             label={t('general.set.date')}
-            value={day}
+            value={date}
             onChange={handleOnChangeDate}
           />
         </Box>
@@ -131,6 +166,7 @@ export const PlainTrainModal = ({ open, onClose, children, title, ...props }: Pl
             sx={{
               mb: 2,
             }}
+            value={name}
             onChange={handleNameTrain}
           />
 
@@ -150,6 +186,7 @@ export const PlainTrainModal = ({ open, onClose, children, title, ...props }: Pl
             sx={{
               mb: 2,
             }}
+            value={comment}
             onChange={handleComment}
           />
         </Box>
@@ -159,8 +196,11 @@ export const PlainTrainModal = ({ open, onClose, children, title, ...props }: Pl
           variant="contained"
           fullWidth
           onClick={handleToPlainTrain}
+          disabled={isCreating}
         >
-          {t('general.buttons.plain')}
+          {!isError && !isSuccess && t('general.buttons.plain')}
+          {isError && getErrorMessage()}
+          {!isError && isSuccess && 'Тренування створено!'}
         </Button>
       </Box>
     </Dialog>

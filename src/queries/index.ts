@@ -47,6 +47,10 @@ export const getPrograms = async () => {
   return await apiClient.get('app/programs/');
 };
 
-export const createTrains = async (data: MyTrain) => {
+export const createTrains = async (data: MyTrain): Promise<MyTrain> => {
   return await apiClient.post('app/trainings/', data);
+}
+
+export const deleteTrain = async (id: number) => {
+  return await apiClient.delete(`app/trainings/${id}/`);
 }
