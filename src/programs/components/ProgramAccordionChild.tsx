@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import {
   Box,
   Grid,
@@ -89,17 +90,42 @@ interface ProgramAccordionChildProps {
 
 export const ProgramAccordionChild = ({ items }: ProgramAccordionChildProps) => {
   const [expandedChild, setExpandedChild] = useState<string | false>('panel0x');
-  const [isStarted, setStarted] = useState(false);
   const { t } = useTranslation('common');
+  
+  const [isStarted, setStarted] = useState<number>(0);
+  const [timer, setTime] = useState(0);
+  const [running, setRunning] = useState(false);
+
+  useEffect(() => {
+    let interval: any;
+
+    if (running) {
+      interval = setInterval(() => {
+        setTime((prevTime) => prevTime + 10);
+      }, 10);
+    } else if (!running) {
+      clearInterval(interval);
+    }
+    return () => clearInterval(interval);
+  }, [running]);
 
   const handleChangeChild = (panel: string) => (event: React.SyntheticEvent, newExpanded: boolean) => {
     setExpandedChild(newExpanded ? panel : false);
   };
 
   const handlePause = () => {
-    setStarted(!isStarted);
-
+    setRunning(!running)
     console.log(t(`general.buttons.${isStarted ? 'pause' : 'start'}`))
+  };
+
+  const reset = () => {
+    setTime(0)
+    setRunning(false);
+  };
+
+  const handleNextExersice = () => {
+    setStarted(0);
+    reset();
   };
 
   return (
@@ -120,10 +146,10 @@ export const ProgramAccordionChild = ({ items }: ProgramAccordionChildProps) => 
                       <Box maxHeight={280} maxWidth="100%" m="auto">
                         {/* add loader while await data? */}
                         <ReactPlayer
-                          playing={isStarted}
-                          onStart={() => setStarted(true)}
-                          onPlay={() => setStarted(true)}
-                          onPause={() => setStarted(false)}
+                          onPlay={() => {
+                            setStarted(item.id)
+                          }}
+                          playing={isStarted === item.id}
                           url={item.video}
                           style={{ maxWidth: '100%', maxHeight: 280, aspectRatio: '16/9' }}
                         />
@@ -132,18 +158,23 @@ export const ProgramAccordionChild = ({ items }: ProgramAccordionChildProps) => 
                     <Grid item md={2.5} display="flex" justifyContent="center" alignItems="center">
                       <Box display="flex" flexDirection="column">
                         <Box height={140} width={140}>
-                          <Meter value={time} item={item} />
+                          <Meter value={time} item={item} timer={timer} />
                         </Box>
                         {/* TODO: buttons actions */}
                         <Box mt={{ md: 5 }}>
-                          <Button fullWidth variant="contained" onClick={handlePause}>
-                            {t(`general.buttons.${isStarted ? 'pause' : 'start'}`)}
+                          <Button fullWidth variant="contained" onClick={handlePause}
+                          >
+                            {t(`general.buttons.${running ? 'pause' : 'start'}`)}
                           </Button>
                           <Box display="flex" justifyContent="space-between" mt={{ md: 4 }}>
-                            <IconButton sx={{ m: -1 }} onClick={() => console.log('train again')}>
+                            <IconButton sx={{ m: -1 }} onClick={reset}>
                               <Svg Icon={ReuseIcon} size={24} />
                             </IconButton>
-                            <IconButton sx={{ m: -1 }} onClick={() => console.log('next excersice')}>
+                            <IconButton sx={{ m: -1 }} onClick={() => {
+                              console.log('next excersice')
+                              setExpandedChild(`panel${index + 1}x`)
+                              handleNextExersice()
+                            }}>
                               <Svg Icon={ArrowRightIcon} size={24} />
                             </IconButton>
                           </Box>

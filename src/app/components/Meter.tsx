@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import { useStopwatch } from 'react-timer-hook';
 import { useTheme } from '@mui/material';
 import { useMeter } from 'react-aria';
@@ -8,9 +9,10 @@ import { Exercise } from '@app/queries/types';
 export interface MeterProps {
   readonly value: number | undefined;
   readonly item?: Exercise | undefined;
+  timer: number,
 }
 
-export const Meter = ({ value, item }: MeterProps) => {
+export const Meter = ({ value, item, timer }: MeterProps) => {
   const { palette } = useTheme();
 
   const maxValue = useMemo(() => {
@@ -75,7 +77,9 @@ export const Meter = ({ value, item }: MeterProps) => {
         fill={palette.grey[900]}
       >
         {/* TODO: upgrade to exercise time */}
-        00 : 00 : 00
+        {("0" + Math.floor((timer / 60000) % 60)).slice(-2)}:
+        {("0" + Math.floor((timer / 1000) % 60)).slice(-2)}:
+        {("0" + ((timer / 10) % 100)).slice(-2)}
       </text>
     </svg>
   );
