@@ -9,13 +9,17 @@ import { LeftMenu } from '@app/app/components/LeftMenu';
 
 import { ReactComponent as ArrowRightIcon } from '../images/icons/arrow-right.svg';
 
+const colors = {
+  easy: 'green.100',
+  medium: 'yellow.100',
+  hard: 'red.100',
+};
+
 export const Programs = () => {
   const params = useParams();
   const { push } = useRouter();
   const { t } = useTranslation('common');
   const { data = [] } = useProgramsListQuery();
-
-  console.log(data)
 
   return (
     <LeftMenu>
@@ -23,33 +27,39 @@ export const Programs = () => {
         <Box display="flex" flexDirection="column" gap={1}>
           {data.map(item => {
             const difficulty = item.difficulty.toLowerCase();
+            const color = colors[difficulty];
 
             return (
-            <Box key={item.id}>
-              <Button
-                fullWidth
-                variant="contained"
-                onClick={() => push(`/programs/${difficulty}`)}
-                sx={{ display: 'flex', flexDirection: 'column', backgroundColor: 'primary.main', px: 4, ':hover': {backgroundColor: 'primary.main'} }}
-              >
-                <Grid container justifyContent="space-between">
-                  <Grid item md={6}>
-                    <Typography variant="body1" color="common.black" textAlign="start">
-                      {/* {t(`programs.levels.${item.}.title`)} */}
-                      {item.name}
-                    </Typography>
+              <Box key={item.id}>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  onClick={() => push(`/programs/${difficulty}`)}
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    backgroundColor: 'primary.main',
+                    px: 4,
+                    ':hover': { backgroundColor: 'primary.main' },
+                  }}
+                >
+                  <Grid container justifyContent="space-between">
+                    <Grid item md={6}>
+                      <Typography variant="body1" color="common.black" textAlign="start">
+                        {item.name}
+                      </Typography>
+                    </Grid>
+                    <Grid item md={3} display="flex" justifyContent="space-between">
+                      <Typography variant="h4" color={color}>
+                        {item.difficulty}
+                      </Typography>
+                      <Svg Icon={ArrowRightIcon} size={24} />
+                    </Grid>
                   </Grid>
-                  <Grid item md={3} display="flex" justifyContent="space-between">
-                    <Typography variant="h4">
-                      {/* {t(`programs.levels.${item.title}.subtitle`)} */}
-                      {item.difficulty}
-                    </Typography>
-                    <Svg Icon={ArrowRightIcon} size={24} />
-                  </Grid>
-                </Grid>
-              </Button>
-            </Box>
-          )})}
+                </Button>
+              </Box>
+            );
+          })}
         </Box>
       </Box>
     </LeftMenu>
