@@ -52,6 +52,7 @@
       "title": "Заміри тіла",
       "subtitle": "Заміри тіла",
       "options": {
+        "height": "Зріст",
         "weight": "Вага",
         "waist": "Талія",
         "glutes": "Сідниці",

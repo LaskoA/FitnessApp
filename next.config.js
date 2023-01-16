@@ -9,6 +9,15 @@ const nextConfig = {
   images: {
     formats: ['image/webp'],
   },
+  redirects: async () => {
+    return [
+      {
+        source: '/404',
+        destination: '/register',
+        permanent: true,
+      },
+    ];
+  },
   experimental: {
     scrollRestoration: true,
     modularizeImports: {
@@ -23,12 +32,12 @@ const nextConfig = {
       use: [
         {
           loader: require.resolve('@svgr/webpack'),
-            options: {
-          //     prettier: false,
+          options: {
+            //     prettier: false,
             svgo: false,
-          //     svgoConfig: {
-          //       plugins: [{ removeViewBox: false }],
-          //     },
+            //     svgoConfig: {
+            //       plugins: [{ removeViewBox: false }],
+            //     },
             titleProp: true,
             ref: true,
           },

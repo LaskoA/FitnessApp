@@ -1,7 +1,7 @@
 import type { NextPage, GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-import { Parameters } from '@app/components/Parameters';
+import { Parameters } from '@app/parameters/components/Parameters';
 
 const ParametersPage: NextPage = () => {
   return <Parameters />;
