@@ -5,7 +5,7 @@ import { AxiosRequestConfig } from 'axios';
 
 import { apiClient } from '@app/query';
 
-import { Train, ApiError, Shape, Exercise, Program, MyTrain } from './types';
+import { Train, ApiError, Shape, Exercise, Program, MyTrain, ProgramList } from './types';
 import { TypeForm } from '@app/formik/components/formRegistration/typeForm';
 
 export const getTraining = async (id?: number, options: AxiosRequestConfig = {}): Promise<Train[]> => {
@@ -55,3 +55,11 @@ export const createTrains = async (data: MyTrain): Promise<MyTrain> => {
 export const deleteTrain = async (id: number) => {
   return await apiClient.delete(`app/trainings/${id}/`);
 }
+
+export const getProgramsList = async (options: AxiosRequestConfig = {}): Promise<ProgramList[]> => {
+  return camelcaseKeys(await apiClient.get('app/programs/', options), { deep: true });
+};
+
+export const useProgramsListQuery = (options: UseQueryOptions<ProgramList[], ApiError> = {}) => {
+  return useQuery<ProgramList[], ApiError>(['programs-list'], getProgramsList, options);
+};

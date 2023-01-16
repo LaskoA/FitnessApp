@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 
 import { Svg } from '@app/ui/svg';
 import { useParams } from '@app/query';
-import { useProgramsQuery } from '@app/queries';
+import { useProgramsListQuery } from '@app/queries';
 import { LeftMenu } from '@app/app/components/LeftMenu';
 
 import { ReactComponent as ArrowRightIcon } from '../images/icons/arrow-right.svg';
@@ -13,7 +13,9 @@ export const Programs = () => {
   const params = useParams();
   const { push } = useRouter();
   const { t } = useTranslation('common');
-  const { data = [] } = useProgramsQuery();
+  const { data = [] } = useProgramsListQuery();
+
+  console.log(data)
 
   return (
     <LeftMenu>

@@ -61,7 +61,7 @@ export interface ProgramExercise {
   id: number;
 }
 
-export interface Program {
+export interface ProgramList {
   id: number;
   name: string;
   difficulty: string;

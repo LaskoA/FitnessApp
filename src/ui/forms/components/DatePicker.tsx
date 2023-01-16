@@ -54,6 +54,9 @@ export const Date = ({ helperText, placeholder, className, name, label, ...props
           onClose={() => setIsOpen(false)}
           value={value}
           inputFormat={appConfig.format.date}
+          onChange={(date: Dayjs | null) => {
+            setValue(date ? date.format(appConfig.format.date) : '');
+          }}
           {...props}
           renderInput={({ InputProps, inputProps, ...params }) => {
             return (
