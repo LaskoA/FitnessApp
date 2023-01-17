@@ -1,7 +1,7 @@
+import { UserDraft } from '@app/users/types';
 import { AUTH_KEY } from '../constants';
-import { State } from '../types/State';
 
-export const set = (state: State) => {
+export const set = (state: UserDraft) => {
   localStorage.setItem(AUTH_KEY, JSON.stringify(state));
 };
 
@@ -14,19 +14,13 @@ export const get = () => {
 
   if (data) {
     try {
-      return JSON.parse(data) as State;
+      return JSON.parse(data) as UserDraft;
     } catch (e) {
-      console.log(e)
+      console.log('auth storage error:', e)
     }
   }
 
   return undefined;
-};
-
-export const getToken = () => {
-  const auth = get();
-
-  return auth?.token;
 };
 
 export const clear = () => {
@@ -36,6 +30,5 @@ export const clear = () => {
 export const authStorage = {
   set,
   get,
-  getToken,
   clear,
 };

@@ -31,6 +31,7 @@ export const FormRegistration = () => {
       dispatch(actionsAvatar.setPreview(userAvatar));
       setSubmitting(false);
       resetForm();
+      push('/profile');
     } catch {
       setIsErrorSubmit(true);
       setTimeout(setIsErrorSubmit, 5000, false);

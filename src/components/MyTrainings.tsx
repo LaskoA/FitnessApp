@@ -49,6 +49,7 @@ export const MyTrainings = () => {
   });
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    console.log(newValue)
     setValue(newValue);
   };
 

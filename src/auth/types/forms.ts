@@ -1,4 +1,4 @@
-import { User } from '@app/users/types';
+import { User, UserDraft } from '@app/users/types';
 
 export interface SignUpForm {
   readonly firstName: User['firstName'];

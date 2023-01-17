@@ -1,4 +1,4 @@
-export const AUTH_KEY = 'auth';
+export const AUTH_KEY = 'fitnes';
 
 export enum ACTIONS {
   SIGN_IN = 'signIn',
