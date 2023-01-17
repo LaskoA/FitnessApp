@@ -16,4 +16,4 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   };
 };
 
-export default auth(StatisticsPage);
+export default StatisticsPage;
