@@ -1,17 +1,19 @@
-import { useState } from 'react';
 import { Button, Grid, LinearProgress } from '@mui/material';
 import { Formik, Form, Field, FormikState } from 'formik';
-import { TextField } from 'formik-mui';
 import { useRouter } from 'next/router';
-import { TypeForm } from './typeForm';
+import { TextField } from 'formik-mui';
+import { useState } from 'react';
+
 import { createUser } from '@app/queries';
-import { validate } from './validateForm';
-import { useAppDispatch, useAppSelector } from '@app/redux/hooks';
-import { actions as actionsAvatar } from '../../../redux/userAvatarSlice';
 import userAvatar from '@app/app/images/user-avatar.png';
+import { useAppDispatch, useAppSelector } from '@app/redux/hooks';
+import { actions as actionsAvatar } from '@app/redux/userAvatarSlice';
+
+import { TypeForm } from './typeForm';
+import { validate } from './validateForm';
 
 export const FormRegistration = () => {
-  const { back } = useRouter();
+  const { back, push } = useRouter();
   const [isErrorSubmit, setIsErrorSubmit] = useState(false);
   const { avatar } = useAppSelector(state => state.avatar);
   const dispatch = useAppDispatch();
@@ -29,6 +31,7 @@ export const FormRegistration = () => {
       dispatch(actionsAvatar.setPreview(userAvatar));
       setSubmitting(false);
       resetForm();
+      push('/profile');
     } catch {
       setIsErrorSubmit(true);
       setTimeout(setIsErrorSubmit, 5000, false);

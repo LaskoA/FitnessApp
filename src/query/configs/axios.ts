@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 import { appConfig } from '@app/app/configs';
+import { authStorage } from '@app/auth/utils/authStorage';
 
 const apiClient = axios.create({
   baseURL: appConfig.apiHost,
@@ -11,6 +12,24 @@ const apiClient = axios.create({
       'Content-Type': 'application/json',
     },
   },
+});
+
+apiClient.interceptors.request.use(async config => {
+  // @ts-ignore
+  if (!config?.headers?.common?.Authorization) {
+    try {
+      const token = authStorage.getToken();
+
+      if (token) {
+        // @ts-ignore
+        config.headers.common.Authorization = `Bearer ${token}`;
+      }
+    } catch (e) {
+      // nothing
+    }
+  }
+
+  return config;
 });
 
 apiClient.interceptors.response.use(

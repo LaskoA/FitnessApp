@@ -15,6 +15,7 @@ export interface Train {
   day: TrainDay;
   muscles: Muscle[];
   user: number;
+  program: number;
 }
 
 export interface ApiError {
@@ -25,9 +26,17 @@ export interface ApiError {
 }
 
 export interface Shape {
-  height: number,
-  weight: number,
-  waist: number,
+  height: number;
+  weight: number;
+  waist: number;
+  glutes: number;
+  biceps: number;
+  thighs: number;
+  calf: number;
+  neck: number;
+  shoulders: number;
+  chest: number;
+  forearm: number;
 }
 
 export interface Shapes {
@@ -46,4 +55,32 @@ export interface Exercise {
   reps: number;
   rest: number;
   timePerRep: number;
+}
+
+export interface ProgramExercise {
+  id: number;
+}
+
+export interface ProgramList {
+  id: number;
+  name: string;
+  difficulty: string;
+  exerciseId: ProgramExercise[];
+}
+
+export interface Program {
+  id: number;
+  name: string;
+  difficulty: string;
+  exercise_id: number[];
+}
+
+export interface MyTrain {
+  date: number | Date;
+  // timeStamp?: number; 
+  program: number;
+  name: string;
+  user: number;
+  id?: number;
+  comment: string;
 }

@@ -7,14 +7,15 @@ import { ModalProvider } from 'react-modal-hook';
 import createCache from '@emotion/cache';
 import type { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
+import { Provider } from 'react-redux';
 import Head from 'next/head';
 import 'dayjs/locale/uk';
 
 import { theme } from '@app/app/configs/theme';
 import { appConfig } from '@app/app/configs/app';
 import { QueryProvider } from '@app/query/components';
+import { AuthProvider } from '@app/auth/components/AuthProvider';
 import { useLanguage, useAutoLocale } from '@app/language';
-import { Provider } from 'react-redux';
 import { store } from '@app/redux/store';
 
 export const createEmotionCache = () => {
@@ -47,8 +48,10 @@ const MyApp = ({ Component, emotionCache = clientSideEmotionCache, pageProps }: 
           <ThemeProvider theme={theme}>
             <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={language === 'ua' ? 'uk' : language}>
               <ModalProvider>
-                <CssBaseline />
-                <Component {...pageProps} />
+                <AuthProvider>
+                  <CssBaseline />
+                  <Component {...pageProps} />
+                </AuthProvider>
               </ModalProvider>
             </LocalizationProvider>
           </ThemeProvider>

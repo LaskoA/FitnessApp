@@ -6,7 +6,7 @@ export interface ModalProps extends DialogProps {
   readonly title: string;
 }
 
-export const Modal = ({ open, onClose, children, title, ...props }: ModalProps) => {
+export const ModalDraft = ({ open, onClose, children, title, ...props }: ModalProps) => {
   return (
     <Dialog open={open} onClose={onClose} {...props}>
       <DialogTitle>{title}</DialogTitle>

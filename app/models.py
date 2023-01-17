@@ -78,7 +78,7 @@ class Program(models.Model):
 class Training(models.Model):
     name = models.CharField(max_length=63)
     comment = models.CharField(max_length=255, blank=True, null=True)
-    date = models.DateField(default=date.today)
+    date = models.CharField(max_length=255)
     program = models.ForeignKey(Program, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 

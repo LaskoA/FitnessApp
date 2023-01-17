@@ -2,12 +2,12 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import userAvatar from '@app/app/images/user-avatar.png';
 import { StaticImageData } from 'next/image';
 
-export interface CommentsState {
+export interface avatarState {
   avatar?: string;
   preview: string | StaticImageData;
 }
 
-const initialState: CommentsState = {
+const initialState: avatarState = {
   avatar: null,
   preview: userAvatar,
 };
