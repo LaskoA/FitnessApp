@@ -1,9 +1,10 @@
-import { FC } from "react";
+import React, { useState } from "react";
 import { MyTrain, Program } from "@app/queries/types";
 import { useAppDispatch, useAppSelector } from "@app/redux/hooks";
 import { IconButton, TableCell, Typography } from "@mui/material";
-import DeleteIcon from '@mui/icons-material/Delete';
 import { actions as actionsMyTrainings, removeTrain } from '../../redux/myTrainingsSlice';
+import { BasicModal } from './DeleteModal';
+import { RiDeleteBin6Line } from 'react-icons/ri';
 
 
 const formatDate = (date: Date = new Date()) => {
@@ -32,7 +33,10 @@ type Props = {
   train: MyTrain,
 }
 
-export const TrainTableRow: FC<Props> = ({ train }) => {
+export const TrainTableRow: React.FC<Props> = ({ train }) => {
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+
   const { programs } = useAppSelector(state => state.programs);
   const { deleting, errorDeleting, deletedTrainId } = useAppSelector(state => state.myTrainings);
   const dispatch = useAppDispatch();
@@ -86,11 +90,16 @@ export const TrainTableRow: FC<Props> = ({ train }) => {
           }}
           color={errorDeleting && deletedTrainId === train.id ? 'error' : 'default'}
           disabled={deleting && deletedTrainId === train.id}
-          onClick={handleDeleteTrain}
+          onClick={handleOpen}
         >
-          <DeleteIcon fontSize="inherit" />
+          <RiDeleteBin6Line />
         </IconButton>
       </TableCell>
+      <BasicModal 
+        open={open} 
+        setOpen={setOpen} 
+        toDelete={handleDeleteTrain}
+      />
     </>
   );
 };

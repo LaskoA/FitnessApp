@@ -14,7 +14,9 @@
       },
       "add": "Add",
       "pause": "Pause",
-      "start": "Start"
+      "start": "Start",
+      "yes": "Yes",
+      "no": "No"
     },
     "history": {
       "title": "History",
@@ -100,5 +102,9 @@
     "rules": "Performance technique:",
     "time": "{{value}} sec",
     "sets": "Repeat"
+  },
+  "delete": {
+    "title": "Delete the program",
+    "description": "Are you sure you want to delete the weight training program?"
   }
 }
