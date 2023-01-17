@@ -90,19 +90,26 @@ interface ProgramAccordionChildProps {
 
 export const ProgramAccordionChild = ({ items }: ProgramAccordionChildProps) => {
   const [expandedChild, setExpandedChild] = useState<string | false>('panel0x');
-  const { t } = useTranslation('common');
-  
   const [isStarted, setStarted] = useState<number>(0);
-  const [timer, setTime] = useState(0);
   const [running, setRunning] = useState(false);
+  const [timer, setTime] = useState(0);
+
+  useEffect(() => console.log('timer:', timer), [timer])
+
+  const { t } = useTranslation('common');
+
+  const reset = () => {
+    setTime(0);
+    setRunning(false);
+  };
 
   useEffect(() => {
     let interval: any;
 
     if (running) {
       interval = setInterval(() => {
-        setTime((prevTime) => prevTime + 10);
-      }, 10);
+        setTime(prevTime => prevTime + 10);
+      }, 1000);
     } else if (!running) {
       clearInterval(interval);
     }
@@ -110,22 +117,17 @@ export const ProgramAccordionChild = ({ items }: ProgramAccordionChildProps) => 
   }, [running]);
 
   const handleChangeChild = (panel: string) => (event: React.SyntheticEvent, newExpanded: boolean) => {
+    reset();
     setExpandedChild(newExpanded ? panel : false);
   };
 
   const handlePause = () => {
     setRunning(!running)
-    console.log(t(`general.buttons.${isStarted ? 'pause' : 'start'}`))
-  };
-
-  const reset = () => {
-    setTime(0)
-    setRunning(false);
   };
 
   const handleNextExersice = () => {
-    setStarted(0);
     reset();
+    setStarted(0);
   };
 
   return (
@@ -158,7 +160,7 @@ export const ProgramAccordionChild = ({ items }: ProgramAccordionChildProps) => 
                     <Grid item md={2.5} display="flex" justifyContent="center" alignItems="center">
                       <Box display="flex" flexDirection="column">
                         <Box height={140} width={140}>
-                          <Meter value={time} item={item} timer={timer} />
+                          <Meter value={timer} item={item} timer={timer} reset={() => setTimeout(() => reset(), 1000)} />
                         </Box>
                         {/* TODO: buttons actions */}
                         <Box mt={{ md: 5 }}>

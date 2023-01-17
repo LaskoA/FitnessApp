@@ -1,26 +1,30 @@
-import React, { useState, useEffect } from 'react';
-import { useStopwatch } from 'react-timer-hook';
 import { useTheme } from '@mui/material';
+import React, { useMemo } from 'react';
 import { useMeter } from 'react-aria';
-import { useMemo } from 'react';
 
 import { Exercise } from '@app/queries/types';
 
 export interface MeterProps {
   readonly value: number | undefined;
-  readonly item?: Exercise | undefined;
-  timer: number,
+  readonly item?: Partial<Exercise> | undefined;
+  readonly timer: number;
+  readonly reset: () => void;
 }
 
-export const Meter = ({ value, item, timer }: MeterProps) => {
+export const Meter = ({ value, item, timer, reset }: MeterProps) => {
   const { palette } = useTheme();
 
   const maxValue = useMemo(() => {
-    if (value) {
-      return item.timePerRep * item.reps * item.sets;
+    const time = item.timePerRep * item.reps * item.sets;
+    if (time === timer) {
+      reset();
     }
-  }, [value]);
-  
+    if (value && item) {
+      return time;
+    }
+  }, [value, item, reset]);
+
+
   const { meterProps } = useMeter({ value, maxValue, 'aria-label': 'time' });
 
   const meter = useMemo(() => {
@@ -30,11 +34,11 @@ export const Meter = ({ value, item, timer }: MeterProps) => {
     const r = center - strokeWidth;
     const c = 2 * r * Math.PI;
     const a = c;
-    const percentage = value && value / maxValue;
-    const offset = percentage && c - percentage * a;
+    const percentage = value ? value / maxValue : 0;
+    const offset = percentage ? c - percentage * a : 0;
 
     return { size, center, strokeWidth, r, c, a, percentage, offset };
-  }, []);
+  }, [value]);
 
   return (
     <svg
@@ -56,13 +60,14 @@ export const Meter = ({ value, item, timer }: MeterProps) => {
         transform={`rotate(270 ${meter.center} ${meter.center})`}
       />
       <circle
+        style={{ transition: 'all 1s ease-out' }}
         role="presentation"
         cx={meter.center}
         cy={meter.center}
         r={meter.r}
         stroke={palette.secondary.main}
         strokeDasharray={meter.c}
-        strokeDashoffset={meter.offset}
+        strokeDashoffset={timer === 0 ? meter.c : meter.offset}
         strokeLinecap="round"
         transform={`rotate(270 ${meter.center} ${meter.center})`}
       />
