@@ -1,3 +1,5 @@
+import { StaticImageData } from 'next/image';
+
 export interface User {
   id?: number;
   email: string;
@@ -5,5 +7,9 @@ export interface User {
   lastName?: string;
   password: number;
   base64?: number;
-  decodedPicture?: number;
+  decodedPicture?: StaticImageData;
+}
+
+export interface UserDraft {
+  user?: User;
 }

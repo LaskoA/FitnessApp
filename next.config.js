@@ -13,7 +13,7 @@ const nextConfig = {
     return [
       {
         source: '/404',
-        destination: '/register',
+        destination: '/profile',
         permanent: true,
       },
     ];

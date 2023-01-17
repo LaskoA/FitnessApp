@@ -2,10 +2,10 @@ import type { NextPage, GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import { auth } from '@app/auth/hooks';
-import { User } from '@app/auth/components/User';
+import { Register } from '@app/auth/components/Register';
 
 const UserPage: NextPage = () => {
-  return <User />;
+  return <Register />;
 };
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
@@ -16,4 +16,4 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   };
 };
 
-export default auth(UserPage);
+export default UserPage;

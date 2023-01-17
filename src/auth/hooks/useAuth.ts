@@ -1,10 +1,9 @@
 import { useCallback, useContext } from 'react';
 import { produce } from 'immer';
 
-import { User } from '@app/users/types';
+import { User, UserDraft } from '@app/users/types';
 
 import { AuthContext } from '../context';
-import { State } from '../types/State';
 
 export const useAuth = () => {
   const { state, setState } = useContext(AuthContext);
@@ -28,6 +27,6 @@ export const useAuth = () => {
     updateUser,
     isSaved,
     isSignedIn: !!state?.user,
-    user: state?.user as State['user'],
+    user: state?.user as UserDraft['user'],
   };
 };

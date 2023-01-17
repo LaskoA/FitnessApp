@@ -4,9 +4,11 @@ import camelcaseKeys from 'camelcase-keys';
 import { AxiosRequestConfig } from 'axios';
 
 import { apiClient } from '@app/query';
+import { UserDraft } from '@app/users/types';
+import { TypeForm } from '@app/formik/components/formRegistration/typeForm';
 
 import { Train, ApiError, Shape, Exercise, Program, MyTrain, ProgramList } from './types';
-import { TypeForm } from '@app/formik/components/formRegistration/typeForm';
+import { authStorage } from '@app/auth/utils/authStorage';
 
 export const getTraining = async (id?: number, options: AxiosRequestConfig = {}): Promise<Train[]> => {
   return await apiClient.get(`app/trainings/${id}/`, options);
@@ -41,8 +43,18 @@ export const useExercisesQuery = (options: UseQueryOptions<Exercise[], ApiError>
 };
 
 export const createUser = async (data: TypeForm) => {
-  return await apiClient.post('user/register/', data);
+  const result: UserDraft = await apiClient.post('user/register/', data);
+
+  authStorage.set(result);
+  
+  // await localStorage.setItem('userId', String(result?.user?.id));
+
+  return result;
 };
+
+export const getUser = async (id?: number) => {
+  authStorage.get()
+}
 
 export const getPrograms = async () => {
   return await apiClient.get('app/programs/');
