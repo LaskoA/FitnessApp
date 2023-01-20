@@ -1,11 +1,10 @@
-import type { NextPage, GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import type { NextPage, GetStaticProps } from 'next';
 
-import { auth } from '@app/auth/hooks';
-import { Excersice } from '@app/components/Excersice';
+import { Main } from '@app/app/components/Main';
 
-const ExcersicePage: NextPage = () => {
-  return <Excersice />;
+const MainPage: NextPage = () => {
+  return <Main />;
 };
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
@@ -16,4 +15,4 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   };
 };
 
-export default auth(ExcersicePage);
+export default MainPage;

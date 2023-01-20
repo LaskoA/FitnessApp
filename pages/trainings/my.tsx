@@ -1,6 +1,7 @@
 import type { NextPage, GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
+import { auth } from '@app/auth/hooks';
 import { MyTrainings } from '@app/components/MyTrainings';
 
 const ExercisesListPage: NextPage = () => {
@@ -15,4 +16,4 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   };
 };
 
-export default ExercisesListPage;
+export default auth(ExercisesListPage);

@@ -1,6 +1,7 @@
 import type { NextPage, GetStaticProps, GetStaticPaths } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
+import { auth } from '@app/auth/hooks';
 import { Program } from '@app/programs/components/Program';
 
 const ProgramPage: NextPage = () => {
@@ -29,4 +30,4 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   };
 };
 
-export default ProgramPage;
+export default auth(ProgramPage);

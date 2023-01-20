@@ -1,6 +1,7 @@
 import type { NextPage, GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
+import { auth } from '@app/auth/hooks';
 import { Parameters } from '@app/parameters/components/Parameters';
 
 const ParametersPage: NextPage = () => {
@@ -15,4 +16,4 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   };
 };
 
-export default ParametersPage;
+export default auth(ParametersPage);

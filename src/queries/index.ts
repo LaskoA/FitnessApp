@@ -46,15 +46,26 @@ export const createUser = async (data: TypeForm) => {
   const result: UserDraft = await apiClient.post('user/register/', data);
 
   authStorage.set(result);
-  
+
   // await localStorage.setItem('userId', String(result?.user?.id));
 
   return result;
 };
 
+export const changeUser = async (
+  { id, ...data }: Partial<TypeForm>,
+  options: AxiosRequestConfig = {},
+): Promise<TypeForm> => {
+  return await apiClient.patch(`/user/change/${id}/`, data, options);
+};
+
+export const useChangeUser = async (options: UseMutationOptions<TypeForm, ApiError, { id: number }> = {}) => {
+  return useMutation<TypeForm, ApiError, { id: number }>(data => changeUser(data), options);
+};
+
 export const getUser = async (id?: number) => {
-  authStorage.get()
-}
+  authStorage.get();
+};
 
 export const getPrograms = async () => {
   return await apiClient.get('app/programs/');
@@ -62,11 +73,11 @@ export const getPrograms = async () => {
 
 export const createTrains = async (data: MyTrain): Promise<MyTrain> => {
   return await apiClient.post('app/trainings/', data);
-}
+};
 
 export const deleteTrain = async (id: number) => {
   return await apiClient.delete(`app/trainings/${id}/`);
-}
+};
 
 export const getProgramsList = async (options: AxiosRequestConfig = {}): Promise<ProgramList[]> => {
   return camelcaseKeys(await apiClient.get('app/programs/', options), { deep: true });
