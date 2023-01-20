@@ -14,7 +14,8 @@ export interface Props {
 }
 
 export function AuthProvider({ children }: Props) {
-  const [state, setState] = useState<UserDraft | undefined>(authStorage.get());
+  const local = authStorage.get();
+  const [state, setState] = useState<UserDraft | undefined>(local);
 
   const handleSetState = useCallback(
     (newState?: UserDraft) => {
@@ -36,7 +37,7 @@ export function AuthProvider({ children }: Props) {
     // if (state?.token) {
       (async () => {
         try {
-          const user = await getUser(43);
+          const user = await getUser(local.user.id);
 
           handleSetState({ ...state, user });
         } catch (e) {

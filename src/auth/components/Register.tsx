@@ -18,9 +18,6 @@ export const Register = () => {
 
   return (
     <LeftMenu>
-      <Box py={{ md: 4 }} px={{ md: 6 }}>
-        <Typography variant="h1">Профіль</Typography>
-      </Box>
       <Box borderRadius={5} mx={6} mb={15.5} pb={4} sx={{ backgroundColor: 'primary.main' }}>
         <Box display="flex" justifyContent="center" py={4}>
           <Box position="relative">

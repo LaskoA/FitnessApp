@@ -1,6 +1,7 @@
 import type { NextPage, GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
+
 import { Register } from '@app/auth/components/Register';
 
 const RegisterPage: NextPage = () => {

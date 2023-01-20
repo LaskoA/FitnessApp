@@ -6,6 +6,7 @@
       "register": "Зареєструватись",
       "cancel": "Скасувати",
       "save": "Зберегти",
+      "error": "Помилка",
       "this": {
         "title": "Цього {{day}}",
         "day": "дня",
@@ -77,6 +78,15 @@
     "profile": {
       "title": "Профіль",
       "subtitle": "Профіль"
+    },
+    "register": {
+      "title": "Username",
+      "subtitle": "Реєстрація",
+      "description": "Створіть користувача"
+    },
+    "main": {
+      "title": "Username",
+      "subtitle": "Головна"
     }
   },
   "table": {
@@ -107,6 +117,14 @@
     "rules": "Техніка виконання:",
     "time": "{{value}} сек",
     "sets": "Повтори"
+  },
+  "form": {
+    "placeholder": {
+      "firstName": "Ім'я",
+      "lastName": "Прізвище",
+      "email": "Email",
+      "password": "Пароль"
+    }
   },
   "delete": {
     "title": "Видалення програми",

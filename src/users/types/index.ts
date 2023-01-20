@@ -7,7 +7,8 @@ export interface User {
   lastName?: string;
   password: number;
   base64?: number;
-  decodedPicture?: StaticImageData;
+  decodedPicture?: string;
+  // decodedPicture?: StaticImageData;
 }
 
 export interface UserDraft {

@@ -1,4 +1,5 @@
 export interface TypeForm {
+  id?: number;
   email: string;
   password: string;
   first_name: string;

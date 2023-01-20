@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
-import { ReactNode, useState, useEffect, SyntheticEvent } from 'react';
+import { ReactNode, useState, useEffect, SyntheticEvent, useMemo } from 'react';
 import Image, { StaticImageData } from 'next/image';
 import dynamic, { LoaderComponent } from 'next/dynamic';
 
@@ -65,56 +65,67 @@ export const LeftMenu = ({ children, backgroundColor, enableBackButton = false, 
     title: 'register',
   });
 
-  const [user, setUser] = useState<User | undefined>({} as User);
+  const [user, setUser] = useState<User>({} as User);
 
   useEffect(() => {
     if (local?.user) {
       setUser({
         ...local?.user,
         // decodedPicture: local?.user?.decodedPicture,
-        decodedPicture: avatar,
+        // decodedPicture: avatar,
+        decodedPicture: local?.user?.decodedPicture,
       });
     }
     console.log('local effct:', local?.user);
   }, [local?.user.decodedPicture]);
 
-  const menuList = [
-    {
-      id: 'trainings',
-      icon: <StrongHandIcon />,
-      to: '/trainings/my',
-    },
-    {
-      id: 'programs',
-      icon: <WeightliftingIcon />,
-      to: '/programs',
-    },
-    {
-      id: 'excersices',
-      icon: <CardsIcon />,
-      to: '/excersices',
-    },
-    {
-      id: 'parameters',
-      icon: <ParametersIcon />,
-      to: '/parameters',
-    },
-    {
-      id: 'statistics',
-      icon: <StatisticsIcon />,
-      to: '/statistics',
-    },
-    {
-      id: 'profile',
-      display: 'none',
-    }
-  ];
+  const menuList = useMemo(
+    () => [
+      {
+        id: 'trainings',
+        icon: <StrongHandIcon />,
+        to: '/trainings/my',
+      },
+      {
+        id: 'programs',
+        icon: <WeightliftingIcon />,
+        to: '/programs',
+      },
+      {
+        id: 'excersices',
+        icon: <CardsIcon />,
+        to: '/excersices',
+      },
+      {
+        id: 'parameters',
+        icon: <ParametersIcon />,
+        to: '/parameters',
+        display: 'none',
+      },
+      {
+        id: 'statistics',
+        icon: <StatisticsIcon />,
+        to: '/statistics',
+        display: 'none',
+      },
+      {
+        id: 'profile',
+        display: 'none',
+      },
+      {
+        id: 'register',
+        display: 'none',
+      },
+    ],
+    [],
+  );
 
   const handleUser = (event: SyntheticEvent) => {
-    if (!local.user) {
-      push('/register')
+    if (!local?.user.id) {
+      push('/register');
     } else {
       authStorage.clear();
+      push('/');
     }
   };
 
@@ -148,9 +159,9 @@ export const LeftMenu = ({ children, backgroundColor, enableBackButton = false, 
         />
         <Box>
           <Box display="flex" flexDirection="column" alignItems="center">
-            {/* <ButtonBase onClick={() => showModal()}> */}
-            <PlanAndDoIcon />
-            {/* </ButtonBase> */}
+            <ButtonBase onClick={() => push('/')}>
+              <PlanAndDoIcon />
+            </ButtonBase>
             <Box mt={{ md: 2.5 }}>
               <BarBellIcon />
             </Box>
@@ -165,15 +176,21 @@ export const LeftMenu = ({ children, backgroundColor, enableBackButton = false, 
               onClick={() => push('/profile')}
               sx={{ ':hover': { cursor: 'pointer' } }}
             >
-              {user?.id === 43 ? (
-                <Box>
-                  <Image
+              {user?.id === local.user.id ? (
+                <Box
+                  height={80}
+                  width={80}
+                  borderRadius="50%"
+                  overflow="hidden"
+                  sx={{ border: activeProfile ? `2px solid white` : '' }}
+                >
+                  <Image src={avatar} alt="avatar" height={80} width={80} />
+                  {/* <img
                     src={avatar}
+                    // src={user?.decodedPicture}
                     alt="avatar"
-                    height={80}
-                    width={80}
-                    style={{ borderRadius: '50%', border: activeProfile ? `2px solid white` : ''} }
-                  />
+                    // style={{ borderRadius: '50%', border: activeProfile ? `2px solid white` : '' }}
+                  /> */}
                 </Box>
               ) : (
                 // <Image src={`/${user?.decodedPicture}`} alt="avatar" height={80} width={80} style={{ borderRadius: '50%' }} />
@@ -181,7 +198,7 @@ export const LeftMenu = ({ children, backgroundColor, enableBackButton = false, 
                 <Svg Icon={UserIcon} />
               )}
               {/* user.fullName */}
-              <Box mt={{ md: 2 }}>{`${user?.firstName} ${user?.lastName}`}</Box>
+              <Box mt={{ md: 2 }}>{user.id ? `${user?.firstName} ${user?.lastName}` : t('menu.register.title')}</Box>
             </Box>
           )}
           <List>
@@ -242,7 +259,7 @@ export const LeftMenu = ({ children, backgroundColor, enableBackButton = false, 
             {enableBackButton ? (
               <BackButton title={backButtonTitle ? backButtonTitle : t(`menu.${active.id}.subtitle`)} onClick={back} />
             ) : (
-              <Typography variant="h1">{t(`menu.${active?.id}.subtitle`)}</Typography>
+              <Typography variant="h1">{t(`menu.${!!local?.user ? active?.id : 'main'}.subtitle`)}</Typography>
             )}
           </Box>
           {children}

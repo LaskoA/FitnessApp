@@ -12,7 +12,7 @@ export const auth = (Component: FunctionComponent<React.PropsWithChildren<unknow
 
   useEffect(() => {
     if (!isSignedIn) {
-      push('/register');
+      push('/');
     } else if (!isSaved && pathname !== '/profile') {
       push('/profile');
     }
